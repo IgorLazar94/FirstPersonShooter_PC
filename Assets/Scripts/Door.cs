@@ -1,15 +1,19 @@
+using DG.Tweening;
 using UnityEngine;
 
-public enum TypeOfDoor
-{
-    Left,
-    Right
-}
 public class Door : MonoBehaviour, IInteractable
 {
-    [SerializeField] private TypeOfDoor typeOfDoor;
-    public string interactionMessage = "press E to activate the action";
+    [SerializeField] private string interactionMessage = "press E to activate the action";
     private bool isDoorOpen = false;
+    [SerializeField] private float targetAngle;
+    private Vector3 isCloseRotation;
+    private Vector3 isOpenRotation;
+
+    private void Start()
+    {
+        isOpenRotation = new Vector3(transform.rotation.x, targetAngle, transform.rotation.z);
+        isCloseRotation = new Vector3(transform.rotation.x, transform.rotation.y, transform.rotation.z);
+    }
 
     public string GetInteractionPlayerMessage()
     {
@@ -18,19 +22,15 @@ public class Door : MonoBehaviour, IInteractable
 
     public void ActivateAction()
     {
-        OpenDoor();
-    }
-
-    private void OpenDoor()
-    {
-        switch (typeOfDoor)
+        if (isDoorOpen)
         {
-            case TypeOfDoor.Left:
-                break;
-            case TypeOfDoor.Right:
-                break;
-            default:
-                break;
+            transform.DOLocalRotate(isCloseRotation, 1f);
+            isDoorOpen = false;
+        }
+        else
+        {
+            transform.DOLocalRotate(isOpenRotation, 1f);
+            isDoorOpen = true;
         }
     }
 }
