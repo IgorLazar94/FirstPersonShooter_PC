@@ -4,9 +4,7 @@ using UnityEditor.VersionControl;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    // вместо текста UI ссылку
     [SerializeField] private DynamicCanvasController dynamicCanvas;
-    public TextMeshPro interactionText;
     private float interactionDistance = 1.5f;
     private IInteractable currentInteractableObject;
 
