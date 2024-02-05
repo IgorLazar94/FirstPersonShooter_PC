@@ -5,6 +5,7 @@ using UnityEngine;
 public class BulletHole : MonoBehaviour
 {
     [SerializeField] private GameObject bulletHolePrefab;
+    [SerializeField] private ParticleSystem sparksFX;
     private float distance = 20f;
     private Camera playerCamera;
 
@@ -20,7 +21,13 @@ public class BulletHole : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, distance))
             {
-                // Исключение для дверей
+                IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    Instantiate(sparksFX, hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(hit.normal));
+                    return;
+                }
+
                 GameObject bulletHole = Instantiate(bulletHolePrefab, hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(-hit.normal));
             }
         }
