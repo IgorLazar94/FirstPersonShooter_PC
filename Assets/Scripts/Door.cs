@@ -4,8 +4,9 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] private string interactionMessage = "press E to activate the action";
-    private bool isDoorOpen = false;
     [SerializeField] private float targetAngle;
+    [SerializeField] private bool isDoorLocked = false;
+    private bool isDoorOpen = false;
     private Vector3 isCloseRotation;
     private Vector3 isOpenRotation;
 
@@ -22,6 +23,11 @@ public class Door : MonoBehaviour, IInteractable
 
     public void ActivateAction()
     {
+        if (isDoorLocked)
+        {
+            ShakeDoor();
+            return;
+        }
         if (isDoorOpen)
         {
             transform.DOLocalRotate(isCloseRotation, 1f);
@@ -32,5 +38,13 @@ public class Door : MonoBehaviour, IInteractable
             transform.DOLocalRotate(isOpenRotation, 1f);
             isDoorOpen = true;
         }
+    }
+
+    private void ShakeDoor()
+    {
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
+        sequence.Append(transform.DOLocalRotate(new Vector3(0f, -targetAngle, 0f), 0.2f));
+        sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
     }
 }
