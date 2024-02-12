@@ -1,56 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ZombieBehaviour : EnemyUnitBehaviour
+namespace Enemy.Zombie
 {
-    [SerializeField] private float distanceToAttack;
-    [SerializeField] private bool isFastZombie;
-    private Animator zombieAnimator;
-    private bool isAttackPlayer = false;
-    private bool isMoveToPlayer = false;
-    private float distanceToPlayer;
-
-    private void Start()
+    public class ZombieBehaviour : EnemyUnitBehaviour
     {
-        zombieAnimator = GetComponent<Animator>();
-        ChooseRandomIdleType();
-    }
+        [SerializeField] private float distanceToAttack;
+        [SerializeField] private bool isFastZombie;
+        private Animator zombieAnimator;
+        private bool isAttackPlayer = false;
+        private bool isMoveToPlayer;
+        private float distanceToPlayer;
 
-    private void Update()
-    {
-        CheckDistanceToPlayer();
-    }
-
-    private void ChooseRandomIdleType()
-    {
-        int random = Random.Range(0, 3);
-        zombieAnimator.SetBool("isIdle", true);
-        zombieAnimator.SetInteger("typeOfIdle", random);
-    }
-
-    private void CheckDistanceToPlayer()
-    {
-        distanceToPlayer = (transform.position - player.transform.position).magnitude;
-        if (!isMoveToPlayer && distanceToPlayer < distanceToAttack)
+        private void Start()
         {
-            isMoveToPlayer = true;
-            zombieAnimator.SetBool("isMove", true);
-            if (isFastZombie)
+            zombieAnimator = GetComponent<Animator>();
+            ChooseRandomIdleType();
+        }
+
+        private void Update()
+        {
+            CheckDistanceToPlayer();
+        }
+
+        private void ChooseRandomIdleType()
+        {
+            int random = Random.Range(0, 3);
+            zombieAnimator.SetBool(StringAnimCollection.isIdle, true);
+            zombieAnimator.SetInteger(StringAnimCollection.typeOfIdle, random);
+        }
+
+        private void CheckDistanceToPlayer()
+        {
+            distanceToPlayer = (transform.position - player.transform.position).magnitude;
+            if (!isMoveToPlayer && distanceToPlayer < distanceToAttack)
             {
-                SetMoveAnimation(0);
-            }
-            else
-            {
-                int random = Random.Range(1, 3);
-                SetMoveAnimation(random);
+                isMoveToPlayer = true;
+                zombieAnimator.SetBool(StringAnimCollection.isMove, true);
+                if (isFastZombie)
+                {
+                    SetMoveAnimation(0);
+                }
+                else
+                {
+                    int random = Random.Range(1, 3);
+                    SetMoveAnimation(random);
+                }
             }
         }
-    }
 
-    private void SetMoveAnimation(int moveType)
-    {
-        Debug.Log("activate type of move" + moveType);
-        zombieAnimator.SetInteger("typeOfMove", moveType);
+        private void SetMoveAnimation(int moveType)
+        {
+            zombieAnimator.SetInteger(StringAnimCollection.typeOfMove, moveType);
+        }
     }
 }
