@@ -1,16 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InputController : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private WeaponAnimController weaponAnimController;
-
-    private void Update()
+    public class InputController : MonoBehaviour
     {
-        if (Input.GetMouseButtonDown(0))
+        [SerializeField] private WeaponController weaponController;
+
+        private void Update()
         {
-            weaponAnimController.Shot();
+            if (Input.GetMouseButtonDown(0))
+            {
+                weaponController.Shot();
+            }
         }
     }
 }

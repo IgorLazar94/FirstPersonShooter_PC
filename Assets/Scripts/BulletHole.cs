@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BulletHole : MonoBehaviour
 {
     [SerializeField] private GameObject bulletHolePrefab;
-    [SerializeField] private ParticleSystem sparksFX;
+    [SerializeField] private ParticleSystem sparksFx;
+    [SerializeField] private ParticleSystem[] bloodFxArray;
     private float distance = 20f;
     private Camera playerCamera;
 
@@ -18,18 +17,28 @@ public class BulletHole : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, distance))
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out var hit, distance))
             {
                 IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+                if (hit.collider.gameObject.TryGetComponent(out Enemy.Zombie.ZombieBehaviour zombie))
+                {
+                    Instantiate(ChooseRandomBlood(), hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(hit.normal));
+                    return;
+                }
                 if (interactable != null)
                 {
-                    Instantiate(sparksFX, hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(hit.normal));
+                    Instantiate(sparksFx, hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(hit.normal));
                     return;
                 }
 
-                GameObject bulletHole = Instantiate(bulletHolePrefab, hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(-hit.normal));
+                Instantiate(bulletHolePrefab, hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f), Quaternion.LookRotation(-hit.normal));
             }
         }
+    }
+
+    private ParticleSystem ChooseRandomBlood()
+    {
+        int random = Random.Range(0, bloodFxArray.Length);
+        return bloodFxArray[random];
     }
 }
