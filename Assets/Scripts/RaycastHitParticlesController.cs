@@ -1,6 +1,8 @@
 using ObjectPool;
+using Player;
 using UnityEngine;
 
+[RequireComponent(typeof(WeaponController))]
 public class RaycastHitParticlesController : MonoBehaviour
 {
     [SerializeField] private BloodFxPool bloodPool;
@@ -12,29 +14,6 @@ public class RaycastHitParticlesController : MonoBehaviour
     private void Start()
     {
         playerCamera = Camera.main;
-    }
-
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out var hit, distance))
-            {
-                IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
-                if (hit.collider.gameObject.TryGetComponent(out Enemy.Zombie.ZombieBehaviour zombie))
-                {
-                    bloodPool.InitNewBlood(hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f));
-                    return;
-                }
-                if (interactable != null)
-                {
-                    CreateSparksFx(hit);
-                    return;
-                }
-
-                CreateBulletFx(hit);
-            }
-        }
     }
 
     private void CreateBulletFx(RaycastHit hit)
@@ -55,4 +34,23 @@ public class RaycastHitParticlesController : MonoBehaviour
         sparksFx.transform.rotation = Quaternion.LookRotation(hit.normal);
     }
 
+    public void CheckTargetPoint()
+    {
+        if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out var hit, distance))
+        {
+            IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
+            if (hit.collider.gameObject.TryGetComponent(out Enemy.Zombie.ZombieBehaviour zombie))
+            {
+                bloodPool.InitNewBlood(hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f));
+                return;
+            }
+            if (interactable != null)
+            {
+                CreateSparksFx(hit);
+                return;
+            }
+
+            CreateBulletFx(hit);
+        } 
+    }
 }

@@ -1,4 +1,4 @@
-using ObjectPool;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -8,6 +8,9 @@ namespace Enemy.Zombie
     public class ZombieBehaviour : EnemyUnitBehaviour
     {
         [SerializeField] private bool isFastZombie;
+        [SerializeField] private int healthPoints;
+        [SerializeField] private int remainingResurrection;
+        private int defaultHealthPoints;
         private float distanceToAttack = 2f;
         private Animator zombieAnimator;
         private NavMeshAgent zombieAgent;
@@ -18,6 +21,7 @@ namespace Enemy.Zombie
 
         private void Start()
         {
+            defaultHealthPoints = healthPoints;
             zombieAnimator = GetComponent<Animator>();
             zombieAgent = GetComponent<NavMeshAgent>();
             ChooseRandomIdleType();
@@ -87,11 +91,13 @@ namespace Enemy.Zombie
             zombieAnimator.SetInteger(StringAnimCollection.typeOfMove, moveType);
         }
 
-        public void TakeDamage()
+        public void TakeDamage(int damage)
         {
             ChanceToAnimatedDamage();
             zombieAgent.SetDestination(player.transform.position);
             isMoveToPlayer = true;
+            healthPoints -= damage;
+            CheckHp();
         }
 
         private void ChanceToAnimatedDamage()
@@ -101,6 +107,30 @@ namespace Enemy.Zombie
             {
                 zombieAnimator.SetTrigger(StringAnimCollection.takeDamage);
             }
+        }
+
+        private void CheckHp()
+        {
+            if (healthPoints <= 0)
+            {
+                zombieAnimator.SetBool(StringAnimCollection.isDeath, true);
+                int random = Random.Range(0, 2);
+                zombieAnimator.SetInteger(StringAnimCollection.typeOfDeath, random);
+                zombieAgent.isStopped = true;
+                zombieAgent.ResetPath();
+                if (remainingResurrection > 0)
+                {
+                    remainingResurrection--;
+                    StartCoroutine(ZombieResurrection());
+                }
+            }
+        }
+
+        private IEnumerator ZombieResurrection()
+        {
+            yield return new WaitForSeconds(10f);
+            zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
+            healthPoints = defaultHealthPoints;
         }
     }
 }

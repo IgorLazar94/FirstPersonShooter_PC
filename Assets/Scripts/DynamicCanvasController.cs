@@ -9,4 +9,8 @@ public class DynamicCanvasController : MonoBehaviour
     {
         textMessage.text = message;
     }
+
+    public void UpdateBullets(int bulletsInPistol, int bulletsInInventory)
+    {
+    }
 }

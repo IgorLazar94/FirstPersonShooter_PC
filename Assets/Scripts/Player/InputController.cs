@@ -12,6 +12,11 @@ namespace Player
             {
                 weaponController.Shot();
             }
+
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                weaponController.Reload();
+            }
         }
     }
 }
