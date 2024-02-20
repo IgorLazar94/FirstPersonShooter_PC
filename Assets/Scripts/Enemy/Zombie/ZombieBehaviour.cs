@@ -18,6 +18,7 @@ namespace Enemy.Zombie
         private bool isMoveToPlayer;
         private float distanceToPlayer;
         private float distanceMoveToPlayer = 10f;
+        [SerializeField] private bool isDeath;
 
         private void Start()
         {
@@ -34,7 +35,7 @@ namespace Enemy.Zombie
 
         private void FixedUpdate()
         {
-            if (isMoveToPlayer)
+            if (isMoveToPlayer && !isDeath)
             {
                 if (distanceToPlayer < distanceToAttack)
                 {
@@ -68,7 +69,7 @@ namespace Enemy.Zombie
         private void CheckDistanceToPlayer()
         {
             distanceToPlayer = (transform.position - player.transform.position).magnitude;
-            if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer)
+            if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath)
             {
                 isMoveToPlayer = true;
                 zombieAnimator.SetBool(StringAnimCollection.isMove, true);
@@ -88,24 +89,43 @@ namespace Enemy.Zombie
 
         private void SetMoveAnimation(int moveType)
         {
+            zombieAnimator.SetBool(StringAnimCollection.isMove, true);
             zombieAnimator.SetInteger(StringAnimCollection.typeOfMove, moveType);
         }
 
         public void TakeDamage(int damage)
         {
-            ChanceToAnimatedDamage();
+            if (isDeath) return;
+            healthPoints -= damage;
+            if (healthPoints <= 0)
+            {
+                ChanceToAnimatedDamage(true);
+            }
+            else
+            {
+                ChanceToAnimatedDamage(false);
+            }
+
             zombieAgent.SetDestination(player.transform.position);
             isMoveToPlayer = true;
-            healthPoints -= damage;
+            int random = Random.Range(1, 3);
+            SetMoveAnimation(random);
             CheckHp();
         }
 
-        private void ChanceToAnimatedDamage()
+        private void ChanceToAnimatedDamage(bool isNecessarily)
         {
-            int random = Random.Range(0, 5);
-            if (random == 0)
+            if (isNecessarily)
             {
                 zombieAnimator.SetTrigger(StringAnimCollection.takeDamage);
+            }
+            else
+            {
+                int random = Random.Range(0, 5);
+                if (random == 0)
+                {
+                    zombieAnimator.SetTrigger(StringAnimCollection.takeDamage);
+                }
             }
         }
 
@@ -113,11 +133,12 @@ namespace Enemy.Zombie
         {
             if (healthPoints <= 0)
             {
-                zombieAnimator.SetBool(StringAnimCollection.isDeath, true);
                 int random = Random.Range(0, 2);
+                zombieAnimator.SetBool(StringAnimCollection.isDeath, true);
                 zombieAnimator.SetInteger(StringAnimCollection.typeOfDeath, random);
                 zombieAgent.isStopped = true;
                 zombieAgent.ResetPath();
+                isDeath = true;
                 if (remainingResurrection > 0)
                 {
                     remainingResurrection--;
@@ -130,6 +151,9 @@ namespace Enemy.Zombie
         {
             yield return new WaitForSeconds(10f);
             zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
+            zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
+            isDeath = false;
+            Debug.Log("is death false");
             healthPoints = defaultHealthPoints;
         }
     }

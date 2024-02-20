@@ -8,15 +8,17 @@ namespace Player
         [SerializeField] private DynamicCanvasController dynamicCanvas; // Inject
         [SerializeField] private Animator pistolAnimator;
         [SerializeField] private ParticleSystem muzzleFlashPistol;
-        private int bulletsInInventory = 30;
-        private int bulletsLoadedInPistol = 0;
+        private int bulletsInInventory = 14;
+        private int bulletsLoadedInPistol;
         private int maxBulletsInPistol = 7;
         private int pistolDamage = 1;
         private RaycastHitParticlesController raycastHitParticlesController;
 
         private void Start()
         {
+            bulletsLoadedInPistol = maxBulletsInPistol;
             raycastHitParticlesController = GetComponent<RaycastHitParticlesController>();
+            dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
         }
 
         public void Shot()
@@ -25,6 +27,7 @@ namespace Player
             pistolAnimator.SetTrigger(StringAnimCollection.Shot);
             muzzleFlashPistol.Play();
             bulletsLoadedInPistol--;
+            dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
             CheckTarget();
             raycastHitParticlesController.CheckTargetPoint();
         }
