@@ -18,11 +18,11 @@ public class DynamicCanvasController : MonoBehaviour
     {
         if (lastBulletsInPistol != bulletsInPistol)
         {
-            bulletsLoadedInPistol.rectTransform.DOShakeAnchorPos(0.25f, Vector3.one * 10, 5, 180f);
+            bulletsLoadedInPistol.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
         }
         if (lastBulletsInInventory != bulletsInInventory)
         {
-            bulletsInPlayerInventory.rectTransform.DOShakeAnchorPos(0.25f, Vector3.one, 5, 180f);
+            bulletsInPlayerInventory.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
         }
         
         bulletsLoadedInPistol.text = bulletsInPistol.ToString();

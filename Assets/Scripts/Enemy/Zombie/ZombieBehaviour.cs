@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Playables;
 using Random = UnityEngine.Random;
 
 namespace Enemy.Zombie
@@ -19,18 +20,24 @@ namespace Enemy.Zombie
         private float distanceToPlayer;
         private float distanceMoveToPlayer = 10f;
         [SerializeField] private bool isDeath;
+        private PlayerState playerState;
+        private int zombieDamage = 10;
+        private float timeSinceLastAttack = 0f;
+        private float attackInterval = 1.5f;
 
         private void Start()
         {
+            playerState = player.GetComponent<PlayerState>();
             defaultHealthPoints = healthPoints;
             zombieAnimator = GetComponent<Animator>();
             zombieAgent = GetComponent<NavMeshAgent>();
             ChooseRandomIdleType();
+            StartCoroutine(StartCheckDistanceToPlayer());
         }
 
         private void Update()
         {
-            CheckDistanceToPlayer();
+            distanceToPlayer = (transform.position - player.transform.position).magnitude;
         }
 
         private void FixedUpdate()
@@ -41,7 +48,6 @@ namespace Enemy.Zombie
                 {
                     AttackPlayer();
                     isAttackPlayer = true;
-                    CheckDistanceToPlayer();
                 }
                 else
                 {
@@ -54,9 +60,15 @@ namespace Enemy.Zombie
 
         private void AttackPlayer()
         {
-            zombieAnimator.SetBool(StringAnimCollection.isAttack, true);
-            int random = Random.Range(0, 3);
-            zombieAnimator.SetInteger(StringAnimCollection.typeOfAttack, random);
+            timeSinceLastAttack += Time.fixedDeltaTime;
+            if (timeSinceLastAttack >= attackInterval)
+            {
+                timeSinceLastAttack = 0f;
+                zombieAnimator.SetBool(StringAnimCollection.isAttack, true);
+                int random = Random.Range(0, 3);
+                zombieAnimator.SetInteger(StringAnimCollection.typeOfAttack, random);
+                playerState.PlayerTakeDamage(zombieDamage);
+            }
         }
 
         private void ChooseRandomIdleType()
@@ -66,9 +78,17 @@ namespace Enemy.Zombie
             zombieAnimator.SetInteger(StringAnimCollection.typeOfIdle, random);
         }
 
+        private IEnumerator StartCheckDistanceToPlayer()
+        {
+            while (!isMoveToPlayer)
+            {
+                yield return new WaitForSeconds(2f);
+                CheckDistanceToPlayer();
+            }
+        }
+
         private void CheckDistanceToPlayer()
         {
-            distanceToPlayer = (transform.position - player.transform.position).magnitude;
             if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath)
             {
                 isMoveToPlayer = true;

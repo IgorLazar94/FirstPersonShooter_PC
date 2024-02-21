@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 
 namespace Player
@@ -13,7 +13,9 @@ namespace Player
         private int maxBulletsInPistol = 7;
         private int pistolDamage = 1;
         private RaycastHitParticlesController raycastHitParticlesController;
-
+        private bool isReadyToShot = true;
+        private float timeBetweenShots = 0.35f;
+        private float timeToReload = 1f;
         private void Start()
         {
             bulletsLoadedInPistol = maxBulletsInPistol;
@@ -23,13 +25,22 @@ namespace Player
 
         public void Shot()
         {
+            if (!isReadyToShot) return;
             if (bulletsLoadedInPistol <= 0) return;
             pistolAnimator.SetTrigger(StringAnimCollection.Shot);
+            StartCoroutine((DelayBeforeNextShot(timeBetweenShots)));
             muzzleFlashPistol.Play();
             bulletsLoadedInPistol--;
             dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
             CheckTarget();
             raycastHitParticlesController.CheckTargetPoint();
+        }
+        
+        private IEnumerator DelayBeforeNextShot(float time)
+        {
+            isReadyToShot = false;
+            yield return new WaitForSeconds(time);
+            isReadyToShot = true;
         }
 
         public void Reload()
@@ -39,6 +50,7 @@ namespace Player
             {
                 bulletsInInventory -= bulletsToLoad;
                 bulletsLoadedInPistol += bulletsToLoad;
+                StartCoroutine(DelayBeforeNextShot(timeToReload));
             }
             else
             {
@@ -51,6 +63,7 @@ namespace Player
         public void SwitchRunState(bool isRun)
         {
             pistolAnimator.SetBool(StringAnimCollection.isRun, isRun);
+            isReadyToShot = !isRun;
         }
 
         private void CheckTarget()

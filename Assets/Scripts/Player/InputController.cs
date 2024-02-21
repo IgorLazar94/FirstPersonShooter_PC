@@ -17,6 +17,15 @@ namespace Player
             {
                 weaponController.Reload();
             }
+
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                weaponController.SwitchRunState(true);
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                weaponController.SwitchRunState(false);
+            }
         }
     }
 }
