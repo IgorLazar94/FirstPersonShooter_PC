@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEditor.VersionControl;
 
 public class PlayerInteraction : MonoBehaviour
 {
