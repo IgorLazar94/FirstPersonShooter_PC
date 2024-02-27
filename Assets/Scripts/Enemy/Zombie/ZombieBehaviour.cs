@@ -1,8 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Playables;
 using Random = UnityEngine.Random;
+using DG.Tweening;
 
 namespace Enemy.Zombie
 {
@@ -11,6 +11,7 @@ namespace Enemy.Zombie
         [SerializeField] private bool isFastZombie;
         [SerializeField] private int healthPoints;
         [SerializeField] private int remainingResurrection;
+        private CapsuleCollider zombieCollider;
         private int defaultHealthPoints;
         private float distanceToAttack = 2f;
         private Animator zombieAnimator;
@@ -19,7 +20,7 @@ namespace Enemy.Zombie
         private bool isMoveToPlayer;
         private float distanceToPlayer;
         private float distanceMoveToPlayer = 10f;
-        [SerializeField] private bool isDeath;
+        private bool isDeath;
         private PlayerState playerState;
         private int zombieDamage = 10;
         private float timeSinceLastAttack = 0f;
@@ -27,6 +28,7 @@ namespace Enemy.Zombie
 
         private void Start()
         {
+            zombieCollider = GetComponent<CapsuleCollider>();
             playerState = player.GetComponent<PlayerState>();
             defaultHealthPoints = healthPoints;
             zombieAnimator = GetComponent<Animator>();
@@ -159,6 +161,7 @@ namespace Enemy.Zombie
                 zombieAgent.isStopped = true;
                 zombieAgent.ResetPath();
                 isDeath = true;
+                SwitchZombieCollider(isDeath);
                 if (remainingResurrection > 0)
                 {
                     remainingResurrection--;
@@ -173,8 +176,25 @@ namespace Enemy.Zombie
             zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
             zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
             isDeath = false;
+            SwitchZombieCollider(isDeath);
             Debug.Log("is death false");
             healthPoints = defaultHealthPoints;
+        }
+
+        private void SwitchZombieCollider(bool isZombieDeath)
+        {
+            zombieCollider.enabled = !isZombieDeath;
+            if (!isZombieDeath)
+            {
+                const float targetRadius = 0.3f;
+                const float duration = 0.5f;
+                zombieCollider.radius = 0f;
+                DOTween.Kill(zombieCollider);
+                var initialRadius = zombieCollider.radius;
+                float[] radiusArray = {initialRadius, targetRadius};
+                DOTween.To(() => radiusArray[0], x => radiusArray[0] = x, targetRadius, duration)
+                    .OnUpdate(() => zombieCollider.radius = radiusArray[0]);
+            }
         }
     }
 }
