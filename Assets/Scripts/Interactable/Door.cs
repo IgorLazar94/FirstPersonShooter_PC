@@ -18,12 +18,12 @@ public class Door : MonoBehaviour, IInteractable
 
     private void OnEnable()
     {
-        ElectricShield.switchElectricity += SwitchElectricDoorLocked;
+        ElectricShield.SwitchElectricity += SwitchElectricDoorLocked;
     }
 
     private void OnDisable()
     {
-        ElectricShield.switchElectricity -= SwitchElectricDoorLocked;
+        ElectricShield.SwitchElectricity -= SwitchElectricDoorLocked;
     }
 
     private void Start()

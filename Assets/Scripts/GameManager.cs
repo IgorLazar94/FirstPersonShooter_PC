@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Enemy.Zombie;
 using UnityEngine;
 
 public enum GameScenarioLevel
@@ -11,6 +12,8 @@ public enum GameScenarioLevel
 }
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private ZombieActivator zombieActivator;
     private GameScenarioLevel gameScenarioLevel;
 
     private void Start()
@@ -21,5 +24,10 @@ public class GameManager : MonoBehaviour
     public void SetNewScenarioStage(GameScenarioLevel newLevel)
     {
         gameScenarioLevel = newLevel;
+    }
+
+    public void ActivateNewZombieGroup()
+    {
+        zombieActivator.ActivateNewGroupOfZombies();
     }
 }

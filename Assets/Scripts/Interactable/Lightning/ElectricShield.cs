@@ -6,21 +6,16 @@ namespace Interactable.Lightning
 {
     public class ElectricShield : MonoBehaviour, IInteractable
     {
-        public static event OnSwitchElectricity switchElectricity;
+        public static event OnSwitchElectricity SwitchElectricity;
         public delegate void OnSwitchElectricity(bool isEnable);
-        // public static event Action<bool> OnSwitchElectricity;
 
-        public static bool isHasElectricity;
-
+        [SerializeField] private GameManager gameManager;
         [SerializeField] private string message = "Press E to enable electric shield";
-
         [SerializeField] private Transform alarmLight;
-
         [SerializeField] private Light[] connectLights;
-
         private Animator shieldAnimator;
-
         private Tween alarmLightTween;
+        private bool isHasElectricity;
 
         private void Start()
         {
@@ -55,7 +50,8 @@ namespace Interactable.Lightning
             alarmLight.GetComponent<Light>().enabled = false;
             isHasElectricity = true;
             ActivateConnectLights(true);
-            switchElectricity?.Invoke(true);
+            SwitchElectricity?.Invoke(true);
+            gameManager.ActivateNewZombieGroup();
         }
 
         private void RotateAlarmLight()
@@ -71,7 +67,7 @@ namespace Interactable.Lightning
             alarmLight.gameObject.SetActive(true);
             RotateAlarmLight();
             ActivateConnectLights(false);
-            switchElectricity?.Invoke(false);
+            SwitchElectricity?.Invoke(false);
         }
 
         private void ActivateConnectLights(bool isActive)
