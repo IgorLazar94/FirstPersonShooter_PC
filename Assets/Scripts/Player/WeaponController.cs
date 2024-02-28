@@ -81,5 +81,11 @@ namespace Player
                 }
             }
         }
+
+        public void AddBulletsToInventory(int newBulletsCount)
+        {
+            bulletsInInventory += newBulletsCount;
+            dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
+        }
     }
 }

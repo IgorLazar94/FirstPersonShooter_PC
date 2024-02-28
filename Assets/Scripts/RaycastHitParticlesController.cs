@@ -1,3 +1,4 @@
+using Interactable;
 using ObjectPool;
 using Player;
 using UnityEngine;
