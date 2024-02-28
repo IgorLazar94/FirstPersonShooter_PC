@@ -34,7 +34,6 @@ public class PlayerInteraction : MonoBehaviour
 
             if (interactable != null)
             {
-                Debug.Log("see interectable");
                 string message = interactable.GetInteractionPlayerMessage();
                 UpdateInteractionText(message);
                 currentInteractableObject = interactable;
