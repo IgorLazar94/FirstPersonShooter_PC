@@ -1,62 +1,63 @@
-using System;
 using Interactable;
 using UnityEngine;
-using TMPro;
 
-public class PlayerInteraction : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private DynamicCanvasController dynamicCanvas;
-    private float interactionDistance = 1.5f;
-    private IInteractable currentInteractableObject;
-    private Camera mainCamera;
-
-    private void Start()
+    public class PlayerInteraction : MonoBehaviour
     {
-        mainCamera = Camera.main;
-    }
+        [SerializeField] private DynamicCanvasController dynamicCanvas;
+        private float interactionDistance = 1.5f;
+        private IInteractable currentInteractableObject;
+        private Camera mainCamera;
 
-    void Update()
-    {
-        CheckInteractionObject();
-        if (Input.GetKeyDown(KeyCode.E) && currentInteractableObject != null)
+        private void Start()
         {
-            currentInteractableObject.ActivateAction();
+            mainCamera = Camera.main;
         }
-    }
 
-    private void CheckInteractionObject()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(ray, out var hit, interactionDistance))
+        void Update()
         {
-            IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
-            if (interactable != null)
+            CheckInteractionObject();
+            if (Input.GetKeyDown(KeyCode.E) && currentInteractableObject != null)
             {
-                string message = interactable.GetInteractionPlayerMessage();
-                UpdateInteractionText(message);
-                currentInteractableObject = interactable;
+                currentInteractableObject.ActivateAction();
+            }
+        }
+
+        private void CheckInteractionObject()
+        {
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, interactionDistance))
+            {
+                IInteractable interactable = hit.collider.GetComponent<IInteractable>();
+
+                if (interactable != null)
+                {
+                    string message = interactable.GetInteractionPlayerMessage();
+                    UpdateInteractionText(message);
+                    currentInteractableObject = interactable;
+                }
+                else
+                {
+                    ClearInteractionText();
+                }
             }
             else
             {
                 ClearInteractionText();
             }
         }
-        else
+
+        private void UpdateInteractionText(string message)
         {
-            ClearInteractionText();
+            dynamicCanvas.UpdateTextMessage(message);
         }
-    }
 
-    private void UpdateInteractionText(string message)
-    {
-        dynamicCanvas.UpdateTextMessage(message);
-    }
-
-    private void ClearInteractionText()
-    {
-        dynamicCanvas.UpdateTextMessage("");
-        currentInteractableObject = null;
+        private void ClearInteractionText()
+        {
+            dynamicCanvas.UpdateTextMessage("");
+            currentInteractableObject = null;
+        }
     }
 }

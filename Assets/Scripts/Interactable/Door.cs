@@ -11,6 +11,10 @@ public class Door : MonoBehaviour, IInteractable
     [SerializeField] private float targetAngle;
     [SerializeField] private bool isDoorLocked = false;
     [SerializeField] private bool isElectricDoor = false;
+    [SerializeField] private AudioClip doorOpen;
+    [SerializeField] private AudioClip doorClose;
+    [SerializeField] private AudioClip isClosedDoor;
+    private AudioSource audioSource;
     private TextMeshPro electricDoorInfo;
     private bool isDoorOpen = false;
     private Vector3 isCloseRotation;
@@ -28,6 +32,7 @@ public class Door : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         electricDoorInfo = GetComponentInChildren<TextMeshPro>();
         var rotation = transform.rotation;
         isOpenRotation = new Vector3(rotation.x, targetAngle, rotation.z);
@@ -49,11 +54,15 @@ public class Door : MonoBehaviour, IInteractable
 
         if (isDoorOpen)
         {
+            audioSource.clip = doorOpen;
+            audioSource.Play();
             transform.DOLocalRotate(isCloseRotation, 1f);
             isDoorOpen = false;
         }
         else
         {
+            audioSource.clip = doorClose;
+            audioSource.Play();
             transform.DOLocalRotate(isOpenRotation, 1f);
             isDoorOpen = true;
         }
@@ -61,6 +70,8 @@ public class Door : MonoBehaviour, IInteractable
 
     private void ShakeDoor()
     {
+        audioSource.clip = isClosedDoor;
+        audioSource.Play();
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, -targetAngle, 0f), 0.2f));

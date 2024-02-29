@@ -1,45 +1,47 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Player;
+using SFX;
 using UnityEngine;
 
-public class PlayerState : MonoBehaviour
+namespace Player
 {
-    [SerializeField] private PostProcController postProcessorController;
-    [SerializeField] private WeaponController weaponController;
-    private int maxPlayerHealth = 100;
-    private int playerHealth;
-
-    private void Start()
+    public class PlayerState : MonoBehaviour
     {
-        playerHealth = maxPlayerHealth;
-    }
+        [SerializeField] private PostProcController postProcessorController;
+        [SerializeField] private WeaponController weaponController;
+        private int maxPlayerHealth = 100;
+        private int playerHealth;
 
-    public void PlayerTakeDamage(int damage)
-    {
-        playerHealth -= damage;
-        playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
-        Invoke(nameof(CalculateDamage), 0.5f); // invoke for attack
-    }
-
-    private void CalculateDamage()
-    {
-        if (maxPlayerHealth <= 0)
+        private void Start()
         {
-            Debug.Log("player death");
+            playerHealth = maxPlayerHealth;
         }
-        postProcessorController.UpdateDamageEffect(maxPlayerHealth);
-    }
 
-    public void AddPlayerHealth(int healthPoints)
-    {
-        playerHealth += healthPoints;
-        playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
-    }
+        public void PlayerTakeDamage(int damage)
+        {
+            playerHealth -= damage;
+            playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
+            PlayerAudioManager.instance.PlaySFX(AudioCollection.PlayerTakeDamage);
+            Invoke(nameof(CheckPlayerHp), 0.5f); // invoke for attack
+        }
 
-    public void AddPlayerAmmo(int ammoCount)
-    {
-        weaponController.AddBulletsToInventory(ammoCount);
+        private void CheckPlayerHp()
+        {
+            if (maxPlayerHealth <= 0)
+            {
+                Debug.Log("player death");
+            }
+            postProcessorController.UpdateDamageEffect(playerHealth);
+        }
+
+        public void AddPlayerHealth(int healthPoints)
+        {
+            playerHealth += healthPoints;
+            playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
+            PlayerAudioManager.instance.PlaySFX(AudioCollection.PickupFirstAidKit);
+        }
+
+        public void AddPlayerAmmo(int ammoCount)
+        {
+            weaponController.AddBulletsToInventory(ammoCount);
+        }
     }
 }

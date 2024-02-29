@@ -1,4 +1,5 @@
 using System.Collections;
+using SFX;
 using UnityEngine;
 
 namespace Player
@@ -30,6 +31,7 @@ namespace Player
             pistolAnimator.SetTrigger(StringAnimCollection.Shot);
             StartCoroutine((DelayBeforeNextShot(timeBetweenShots)));
             muzzleFlashPistol.Play();
+            PlayerAudioManager.instance.PlaySFX(AudioCollection.PistolShot);
             bulletsLoadedInPistol--;
             dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
             CheckTarget();
@@ -50,6 +52,7 @@ namespace Player
             {
                 bulletsInInventory -= bulletsToLoad;
                 bulletsLoadedInPistol += bulletsToLoad;
+                PlayerAudioManager.instance.PlaySFX(AudioCollection.PistolReload);
                 StartCoroutine(DelayBeforeNextShot(timeToReload));
             }
             else
@@ -86,6 +89,7 @@ namespace Player
         {
             bulletsInInventory += newBulletsCount;
             dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
+            PlayerAudioManager.instance.PlaySFX(AudioCollection.PickupAmmoBox);
         }
     }
 }

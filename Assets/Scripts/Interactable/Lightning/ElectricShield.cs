@@ -13,6 +13,9 @@ namespace Interactable.Lightning
         [SerializeField] private string message = "Press E to enable electric shield";
         [SerializeField] private Transform alarmLight;
         [SerializeField] private Light[] connectLights;
+        [SerializeField] private AudioClip lightSfx;
+        [SerializeField] private AudioClip alarmSfx;
+        private AudioSource audioSource;
         private Animator shieldAnimator;
         private Tween alarmLightTween;
         private bool isHasElectricity;
@@ -20,6 +23,7 @@ namespace Interactable.Lightning
         private void Start()
         {
             isHasElectricity = true;
+            audioSource = GetComponent<AudioSource>();
             shieldAnimator = GetComponent<Animator>();
             alarmLight.gameObject.SetActive(false);
         }
@@ -56,6 +60,8 @@ namespace Interactable.Lightning
 
         private void RotateAlarmLight()
         {
+            audioSource.clip = alarmSfx;
+            audioSource.Play();
             alarmLightTween = alarmLight.DORotate(new Vector3(360f, 0f, 0f), 1f, RotateMode.FastBeyond360)
                 .SetEase(Ease.Linear)
                 .OnComplete(RotateAlarmLight);
@@ -76,6 +82,10 @@ namespace Interactable.Lightning
             {
                 light1.enabled = isActive;
             }
+
+            if (isActive != true) return;
+            audioSource.clip = lightSfx;
+            audioSource.Play();
         }
     }
 }

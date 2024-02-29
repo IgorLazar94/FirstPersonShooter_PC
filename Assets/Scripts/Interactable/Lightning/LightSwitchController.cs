@@ -10,9 +10,11 @@ namespace Lightning
         [SerializeField] private Light[] connectingLights;
         [SerializeField] private bool isEnable;
         private Animator switchAnimator;
+        private AudioSource audioSource;
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             switchAnimator = GetComponent<Animator>();
         }
 
@@ -36,10 +38,14 @@ namespace Lightning
             ActivateSwitchAnimation(isEnable);
         }
 
-        private void ActivateSwitchAnimation(bool isEnable)
-        {   
+        private void ActivateSwitchAnimation(bool isEnabled)
+        {
             switchAnimator.SetTrigger(StringAnimCollection.Switch);
-            switchAnimator.SetBool(StringAnimCollection.isActive, isEnable);
+            switchAnimator.SetBool(StringAnimCollection.IsActive, isEnabled);
+            if (isEnabled)
+            {
+                audioSource.Play();
+            }
         }
     }
 }

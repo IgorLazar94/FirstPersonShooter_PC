@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
 using DG.Tweening;
+using Player;
 
 namespace Enemy.Zombie
 {
@@ -13,7 +14,7 @@ namespace Enemy.Zombie
         [SerializeField] private int remainingResurrection;
         private CapsuleCollider zombieCollider;
         private int defaultHealthPoints;
-        private float distanceToAttack = 2f;
+        private float distanceToAttack = 2.5f;
         private Animator zombieAnimator;
         private NavMeshAgent zombieAgent;
         private bool isAttackPlayer;
@@ -84,7 +85,7 @@ namespace Enemy.Zombie
         {
             while (!isMoveToPlayer)
             {
-                yield return new WaitForSeconds(2f);
+                yield return new WaitForSeconds(0.75f);
                 CheckDistanceToPlayer();
             }
         }
