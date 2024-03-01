@@ -119,6 +119,7 @@ namespace Enemy.Zombie
                 {
                     SetMoveAnimation(0);
                     zombieAgent.SetDestination(player.transform.position);
+                    zombieAgent.speed *= 1.5f;
                 }
                 else
                 {
@@ -199,7 +200,6 @@ namespace Enemy.Zombie
             zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
             isDeath = false;
             SwitchZombieCollider(isDeath);
-            Debug.Log("is death false");
             healthPoints = defaultHealthPoints;
         }
 
