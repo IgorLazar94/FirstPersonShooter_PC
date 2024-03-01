@@ -8,5 +8,6 @@ namespace SFX
         public const string PickupAmmoBox = "PickupAmmoBox";
         public const string PickupFirstAidKit = "PickupFirstAidKit";
         public const string PlayerTakeDamage = "PlayerTakeDamage";
+        public const string Click = "Click";
     }
 }

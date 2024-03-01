@@ -19,6 +19,6 @@ public class StringAnimCollection : MonoBehaviour
     public static readonly string resurrection = "resurrection";
     //Light
     public static readonly string Switch = "Switch";
-    public static readonly string IsActive = "isActive";
+    public static readonly string IsActive = "IsActive";
     public static readonly string OpenShield = "OpenShield";
 }

@@ -12,6 +12,8 @@ namespace Enemy.Zombie
         [SerializeField] private bool isFastZombie;
         [SerializeField] private int healthPoints;
         [SerializeField] private int remainingResurrection;
+        [SerializeField] private AudioClip zombieAttack, zombieAttack2, takeDamage, takeDamage2, findPlayer, findPlayer2, zombieDie, zombieDie2;
+        private AudioSource audioSource;
         private CapsuleCollider zombieCollider;
         private int defaultHealthPoints;
         private float distanceToAttack = 2.5f;
@@ -29,6 +31,7 @@ namespace Enemy.Zombie
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             zombieCollider = GetComponent<CapsuleCollider>();
             playerState = player.GetComponent<PlayerState>();
             defaultHealthPoints = healthPoints;
@@ -71,7 +74,22 @@ namespace Enemy.Zombie
                 int random = Random.Range(0, 3);
                 zombieAnimator.SetInteger(StringAnimCollection.typeOfAttack, random);
                 playerState.PlayerTakeDamage(zombieDamage);
+                PlayRandomAudio(zombieAttack, zombieAttack2);
             }
+        }
+
+        private void PlayRandomAudio(AudioClip option1, AudioClip option2)
+        {
+            int random = Random.Range(0, 2);
+            if (random > 0)
+            {
+                audioSource.clip = option1;
+            }
+            else
+            {
+                audioSource.clip = option2;
+            }
+            audioSource.Play();
         }
 
         private void ChooseRandomIdleType()
@@ -94,6 +112,7 @@ namespace Enemy.Zombie
         {
             if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath)
             {
+                PlayRandomAudio(findPlayer, findPlayer2);
                 isMoveToPlayer = true;
                 zombieAnimator.SetBool(StringAnimCollection.isMove, true);
                 if (isFastZombie)
@@ -120,6 +139,7 @@ namespace Enemy.Zombie
         {
             if (isDeath) return;
             healthPoints -= damage;
+            PlayRandomAudio(takeDamage, takeDamage2);
             if (healthPoints <= 0)
             {
                 ChanceToAnimatedDamage(true);
@@ -163,6 +183,7 @@ namespace Enemy.Zombie
                 zombieAgent.ResetPath();
                 isDeath = true;
                 SwitchZombieCollider(isDeath);
+                PlayRandomAudio(zombieDie, zombieDie2);
                 if (remainingResurrection > 0)
                 {
                     remainingResurrection--;
