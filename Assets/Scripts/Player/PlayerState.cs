@@ -10,12 +10,14 @@ namespace Player
         [SerializeField] private PostProcController postProcessorController;
         [SerializeField] private WeaponController weaponController;
         [SerializeField] private DynamicCanvasController dynamicCanvas;
+        private FirstPersonController firstPersonController;
         private int maxPlayerHealth = 100;
         private int playerHealth;
 
         private void Start()
         {
             playerHealth = maxPlayerHealth;
+            firstPersonController = GetComponent<FirstPersonController>();
         }
 
         public void PlayerTakeDamage(int damage)
@@ -35,6 +37,7 @@ namespace Player
                 weaponController.transform.DOMoveY(-6f, 0.25f);
                 Invoke(nameof(ActivateDeadEffect), 1.0f);
             }
+
             postProcessorController.UpdateDamageEffect(playerHealth);
         }
 
@@ -42,6 +45,8 @@ namespace Player
         {
             Time.timeScale = 0;
             dynamicCanvas.ActivateDeathPanel();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
         }
 
         public void AddPlayerHealth(int healthPoints)
@@ -49,6 +54,7 @@ namespace Player
             playerHealth += healthPoints;
             playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
             PlayerAudioManager.instance.PlaySFX(AudioCollection.PickupFirstAidKit);
+            dynamicCanvas.ActivateTreatmentEffect();
         }
 
         public void AddPlayerAmmo(int ammoCount)

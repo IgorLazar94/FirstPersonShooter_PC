@@ -27,7 +27,7 @@ namespace Player
         public void Shot()
         {
             if (!isReadyToShot) return;
-            if (bulletsLoadedInPistol <= 0) return;
+            if (bulletsLoadedInPistol <= 0) { Reload(); return;}
             pistolAnimator.SetTrigger(StringAnimCollection.Shot);
             StartCoroutine((DelayBeforeNextShot(timeBetweenShots)));
             muzzleFlashPistol.Play();
@@ -74,7 +74,7 @@ namespace Player
             var transform1 = transform;
             var raycastOrigin = transform1.position;
             var raycastDirection = transform1.forward;
-            var raycastDistance = 100f;
+            const float raycastDistance = 100f;
             if (Physics.Raycast(raycastOrigin, raycastDirection, out var hit, raycastDistance))
             {
                 var zombieBehaviour = hit.collider.GetComponent<Enemy.Zombie.ZombieBehaviour>();
@@ -90,6 +90,10 @@ namespace Player
             bulletsInInventory += newBulletsCount;
             dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
             PlayerAudioManager.instance.PlaySFX(AudioCollection.PickupAmmoBox);
+            if (bulletsLoadedInPistol <= 0)
+            {
+                Reload();
+            }
         }
     }
 }
