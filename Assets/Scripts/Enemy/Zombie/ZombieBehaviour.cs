@@ -57,7 +57,7 @@ namespace Enemy.Zombie
                 }
                 else
                 {
-                    zombieAgent.SetDestination(player.transform.position);
+                    OnHandleMovedZombieToPlayer();
                     zombieAnimator.SetBool(StringAnimCollection.isAttack, false);
                     isAttackPlayer = false;
                 }
@@ -131,14 +131,14 @@ namespace Enemy.Zombie
                 if (isFastZombie)
                 {
                     SetMoveAnimation(0);
-                    zombieAgent.SetDestination(player.transform.position);
+                    OnHandleMovedZombieToPlayer();
                     zombieAgent.speed *= 1.5f;
                 }
                 else
                 {
                     int random = Random.Range(1, 3);
                     SetMoveAnimation(random);
-                    zombieAgent.SetDestination(player.transform.position);
+                    OnHandleMovedZombieToPlayer();
                 }
             }
         }
@@ -154,16 +154,15 @@ namespace Enemy.Zombie
             if (isDeath) return;
             healthPoints -= damage;
             PlayRandomAudio(takeDamage, takeDamage2);
-            if (healthPoints <= 0)
-            {
-                ChanceToAnimatedDamage(true);
-            }
-            else
-            {
-                ChanceToAnimatedDamage(false);
-            }
-
-            zombieAgent.SetDestination(player.transform.position);
+            // if (healthPoints <= 0)
+            // {
+            ChanceToAnimatedDamage(true);
+            // }
+            // else
+            // {
+            //     ChanceToAnimatedDamage(false);
+            // }
+            OnHandleMovedZombieToPlayer();
             isMoveToPlayer = true;
             int random = Random.Range(1, 3);
             SetMoveAnimation(random);
@@ -192,10 +191,11 @@ namespace Enemy.Zombie
             {
                 int random = Random.Range(0, 2);
                 zombieAnimator.SetBool(StringAnimCollection.isDeath, true);
+                zombieAnimator.SetBool(StringAnimCollection.isMove, false);
                 zombieAnimator.SetInteger(StringAnimCollection.typeOfDeath, random);
-                zombieAgent.isStopped = true;
-                zombieAgent.ResetPath();
+                OnHandleStoppedZombie();
                 isDeath = true;
+                isMoveToPlayer = false;
                 SwitchZombieCollider(isDeath);
                 PlayRandomAudio(zombieDie, zombieDie2);
                 if (remainingResurrection > 0)
@@ -206,12 +206,28 @@ namespace Enemy.Zombie
             }
         }
 
+        public void OnHandleStoppedZombie() // and Animation event
+        {
+            isMoveToPlayer = false;
+            zombieAgent.isStopped = true;
+            zombieAgent.ResetPath();
+        }
+
+        public void OnHandleMovedZombieToPlayer() // and Animation event
+        {
+            isMoveToPlayer = true;
+            zombieAgent.isStopped = false;
+            zombieAgent.SetDestination(player.transform.position);
+        }
+
         private IEnumerator ZombiePlayResurrectionAnimation()
         {
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(20f);
             zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
             zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
-            
+            OnHandleStoppedZombie();
+            zombieAnimator.SetBool(StringAnimCollection.isMove, false);
+            StartCoroutine(StartCheckDistanceToPlayer());
         }
 
         private void SwitchZombieCollider(bool isZombieDeath)
