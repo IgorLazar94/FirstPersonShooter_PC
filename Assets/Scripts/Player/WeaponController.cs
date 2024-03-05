@@ -29,6 +29,7 @@ namespace Player
         {
             if (!isReadyToShot) return;
             if (bulletsLoadedInPistol <= 0) { Reload(); return;}
+            dynamicCanvas.PlayCrosshairAnim();
             pistolAnimator.SetTrigger(StringAnimCollection.Shot);
             StartCoroutine((DelayBeforeNextShot(timeBetweenShots)));
             muzzleFlashPistol.Play();
@@ -82,6 +83,7 @@ namespace Player
                 var zombieBehaviour = hit.collider.GetComponent<Enemy.Zombie.ZombieBehaviour>();
                 if (zombieBehaviour != null)
                 {
+                    dynamicCanvas.PlayDetectAnim();
                     zombieBehaviour.TakeDamage(pistolDamage);
                 }
             }

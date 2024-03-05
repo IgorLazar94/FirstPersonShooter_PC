@@ -11,6 +11,8 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI bulletsLoadedInPistol;
     [SerializeField] private TextMeshProUGUI bulletsInPlayerInventory;
     [SerializeField] private GameObject deathPanel;
+    [SerializeField] private Animation crosshairMovedAnim;
+    [SerializeField] private Animation hitDetectAnim;
     private Animation treatmentAnimation;
     private int lastBulletsInPistol;
     private int lastBulletsInInventory;
@@ -56,5 +58,15 @@ public class DynamicCanvasController : MonoBehaviour
     public void ActivateTreatmentEffect()
     {
         treatmentAnimation.Play();
+    }
+
+    public void PlayCrosshairAnim()
+    {
+        crosshairMovedAnim.Play();
+    }
+
+    public void PlayDetectAnim()
+    {
+        hitDetectAnim.Play();
     }
 }
