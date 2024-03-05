@@ -17,6 +17,7 @@ namespace Player
         private bool isReadyToShot = true;
         private float timeBetweenShots = 0.35f;
         private float timeToReload = 1f;
+        private float timeToMeleeAttack = 1.5f;
         private void Start()
         {
             bulletsLoadedInPistol = maxBulletsInPistol;
@@ -47,6 +48,7 @@ namespace Player
 
         public void Reload()
         {
+            if (!isReadyToShot) return;
             int bulletsToLoad = Mathf.Min(bulletsInInventory, maxBulletsInPistol - bulletsLoadedInPistol);
             if (bulletsToLoad > 0 && bulletsLoadedInPistol < 7)
             {
@@ -93,6 +95,31 @@ namespace Player
             if (bulletsLoadedInPistol <= 0)
             {
                 Reload();
+            }
+        }
+
+        public void MeleeAttack()
+        {
+            if (isReadyToShot)
+            {
+                StartCoroutine(DelayBeforeNextShot(timeToMeleeAttack));
+                pistolAnimator.SetTrigger(StringAnimCollection.MeleeAttack);
+                Invoke(nameof(CheckNearbyZombies), timeToMeleeAttack / 2);
+            }
+        }
+
+        public void CheckNearbyZombies()
+        {
+            float radius = 1f;
+            Collider[] results = new Collider[10];
+            int count = Physics.OverlapSphereNonAlloc(transform.position, radius, results);
+            for (int i = 0; i < count; i++)
+            {
+                var zombieBehaviour = results[i].GetComponent<Enemy.Zombie.ZombieBehaviour>();
+                if (zombieBehaviour != null)
+                {
+                    zombieBehaviour.TakeDamage(0);
+                }
             }
         }
     }

@@ -9,12 +9,6 @@ namespace Player
         [SerializeField] private PlayerFlashlightController flashlight;
         [SerializeField] private AudioSource footstepAudioSource;
         [SerializeField] private AudioClip walkSound;
-        private AudioLowPassFilter lowPassFilter;
-
-        private void Start()
-        {
-            lowPassFilter = GetComponent<AudioLowPassFilter>();
-        }
 
         private void Update()
         {
@@ -44,6 +38,11 @@ namespace Player
             {
                 flashlight.SwitchFlashLight();
             }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                weaponController.MeleeAttack();
+            }
         }
 
         private void CheckWalkSound()
@@ -53,13 +52,14 @@ namespace Player
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
                     footstepAudioSource.pitch = 2f;
-                    lowPassFilter.cutoffFrequency = 500f;
+                    footstepAudioSource.volume = 1f;
                     flashlight.SwitchFlashlightAnimation(true);
                 }
                 else
                 {
                     flashlight.SwitchFlashlightAnimation(false);
                     footstepAudioSource.pitch = 1f;
+                    footstepAudioSource.volume = 0.5f;
                 }
 
                 if (!footstepAudioSource.isPlaying)
