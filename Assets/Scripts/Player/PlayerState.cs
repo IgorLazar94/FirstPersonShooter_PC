@@ -1,3 +1,5 @@
+using System;
+using DG.Tweening;
 using SFX;
 using UnityEngine;
 
@@ -7,6 +9,7 @@ namespace Player
     {
         [SerializeField] private PostProcController postProcessorController;
         [SerializeField] private WeaponController weaponController;
+        [SerializeField] private DynamicCanvasController dynamicCanvas;
         private int maxPlayerHealth = 100;
         private int playerHealth;
 
@@ -25,11 +28,20 @@ namespace Player
 
         private void CheckPlayerHp()
         {
-            if (maxPlayerHealth <= 0)
+            if (playerHealth <= 0)
             {
-                Debug.Log("player death");
+                GetComponent<InputController>().enabled = false;
+                GetComponent<FirstPersonController>().enabled = false;
+                weaponController.transform.DOMoveY(-6f, 0.25f);
+                Invoke(nameof(ActivateDeadEffect), 1.0f);
             }
             postProcessorController.UpdateDamageEffect(playerHealth);
+        }
+
+        private void ActivateDeadEffect()
+        {
+            Time.timeScale = 0;
+            dynamicCanvas.ActivateDeathPanel();
         }
 
         public void AddPlayerHealth(int healthPoints)
