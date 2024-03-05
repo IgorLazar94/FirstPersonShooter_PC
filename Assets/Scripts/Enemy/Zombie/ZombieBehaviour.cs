@@ -52,7 +52,7 @@ namespace Enemy.Zombie
             {
                 if (distanceToPlayer < distanceToAttack)
                 {
-                    AttackPlayer();
+                    PlayAttackPlayerAnimation();
                     isAttackPlayer = true;
                 }
                 else
@@ -64,7 +64,7 @@ namespace Enemy.Zombie
             }
         }
 
-        private void AttackPlayer()
+        private void PlayAttackPlayerAnimation()
         {
             timeSinceLastAttack += Time.fixedDeltaTime;
             if (timeSinceLastAttack >= attackInterval)
@@ -73,10 +73,23 @@ namespace Enemy.Zombie
                 zombieAnimator.SetBool(StringAnimCollection.isAttack, true);
                 int random = Random.Range(0, 3);
                 zombieAnimator.SetInteger(StringAnimCollection.typeOfAttack, random);
-                playerState.PlayerTakeDamage(zombieDamage);
                 PlayRandomAudio(zombieAttack, zombieAttack2);
             }
         }
+
+        public void OnHandleAttackPlayer() // Animation Event
+        {
+            playerState.PlayerTakeDamage(zombieDamage);
+        }
+
+        public void OnHandleRessurectionZombie() // Animation Event
+        {
+            isDeath = false;
+            SwitchZombieCollider(isDeath);
+            healthPoints = defaultHealthPoints;
+        }
+        
+        
 
         private void PlayRandomAudio(AudioClip option1, AudioClip option2)
         {
@@ -103,7 +116,7 @@ namespace Enemy.Zombie
         {
             while (!isMoveToPlayer)
             {
-                yield return new WaitForSeconds(0.75f);
+                yield return new WaitForSeconds(0.25f);
                 CheckDistanceToPlayer();
             }
         }
@@ -188,19 +201,17 @@ namespace Enemy.Zombie
                 if (remainingResurrection > 0)
                 {
                     remainingResurrection--;
-                    StartCoroutine(ZombieResurrection());
+                    StartCoroutine(ZombiePlayResurrectionAnimation());
                 }
             }
         }
 
-        private IEnumerator ZombieResurrection()
+        private IEnumerator ZombiePlayResurrectionAnimation()
         {
             yield return new WaitForSeconds(10f);
             zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
             zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
-            isDeath = false;
-            SwitchZombieCollider(isDeath);
-            healthPoints = defaultHealthPoints;
+            
         }
 
         private void SwitchZombieCollider(bool isZombieDeath)
