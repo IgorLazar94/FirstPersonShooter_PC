@@ -12,8 +12,8 @@ public enum GameScenarioLevel
 }
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private ZombieActivator zombieActivator;
+    [SerializeField] private ZombieActivator zombieActivator;
+    [SerializeField] private GameObject decorativeZombie;
     private GameScenarioLevel gameScenarioLevel;
 
     private void Start()
@@ -29,5 +29,12 @@ public class GameManager : MonoBehaviour
     public void ActivateNewZombieGroup()
     {
         zombieActivator.ActivateNewGroupOfZombies();
+        RemoveDecorativeZombie();
+        
+    }
+
+    private void RemoveDecorativeZombie()
+    {
+        decorativeZombie.SetActive(false);
     }
 }

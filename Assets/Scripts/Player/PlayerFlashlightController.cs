@@ -27,14 +27,7 @@ namespace Player
         public void SwitchFlashlightAnimation(bool isRun)
         {
             // flashlightAnimator.SetBool(StringAnimCollection.isRun, isRun);
-            if (isRun)
-            {
-                flashlightAnimator.speed = 1.5f;
-            }
-            else
-            {
-                flashlightAnimator.speed = 0.5f;
-            }
+            flashlightAnimator.speed = isRun ? 1f : 0.3f;
         }
     }
 }
