@@ -31,7 +31,6 @@ namespace Player
             if (Physics.Raycast(ray, out var hit, interactionDistance))
             {
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();
-
                 if (interactable != null)
                 {
                     string message = interactable.GetInteractionPlayerMessage();
