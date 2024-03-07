@@ -224,9 +224,11 @@ namespace Enemy.Zombie
         {
             yield return new WaitForSeconds(20f);
             zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
-            zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
             OnHandleStoppedZombie();
+            isAttackPlayer = false;
+            zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
             zombieAnimator.SetBool(StringAnimCollection.isMove, false);
+            zombieAnimator.SetBool(StringAnimCollection.isAttack, false);
             StartCoroutine(StartCheckDistanceToPlayer());
         }
 

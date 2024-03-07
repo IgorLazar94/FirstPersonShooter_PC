@@ -7,13 +7,10 @@ using UnityEngine;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    [SerializeField] private string interactionMessage = "press E to activate the action";
     [SerializeField] private float targetAngle;
     [SerializeField] private bool isDoorLocked = false;
     [SerializeField] private bool isElectricDoor = false;
-    [SerializeField] private AudioClip doorOpen;
-    [SerializeField] private AudioClip doorClose;
-    [SerializeField] private AudioClip isClosedDoor;
+    private string interactionMessage = "press E to open the door";
     private AudioSource audioSource;
     private TextMeshPro electricDoorInfo;
     private bool isDoorOpen = false;
@@ -54,14 +51,14 @@ public class Door : MonoBehaviour, IInteractable
 
         if (isDoorOpen)
         {
-            audioSource.clip = doorOpen;
+            audioSource.clip = DoorSoundCollection.instance.DoorOpen;
             audioSource.Play();
             transform.DOLocalRotate(isCloseRotation, 1f);
             isDoorOpen = false;
         }
         else
         {
-            audioSource.clip = doorClose;
+            audioSource.clip = DoorSoundCollection.instance.DoorClose;
             audioSource.Play();
             transform.DOLocalRotate(isOpenRotation, 1f);
             isDoorOpen = true;
@@ -70,9 +67,12 @@ public class Door : MonoBehaviour, IInteractable
 
     private void ShakeDoor()
     {
-        audioSource.clip = isClosedDoor;
+        audioSource.clip = DoorSoundCollection.instance.DoorLocked;
         audioSource.Play();
         Sequence sequence = DOTween.Sequence();
+        sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
+        sequence.Append(transform.DOLocalRotate(new Vector3(0f, -targetAngle, 0f), 0.2f));
+        sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, -targetAngle, 0f), 0.2f));
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));

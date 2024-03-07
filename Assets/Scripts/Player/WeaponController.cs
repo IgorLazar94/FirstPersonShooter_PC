@@ -18,8 +18,12 @@ namespace Player
         private float timeBetweenShots = 0.35f;
         private float timeToReload = 1f;
         private float timeToMeleeAttack = 1.5f;
+        private int ignoreLayerMask;
+        private string layerName = "TriggerZoneLayer";
+        
         private void Start()
         {
+            ignoreLayerMask = ~LayerMask.GetMask(layerName);
             bulletsLoadedInPistol = maxBulletsInPistol;
             raycastHitParticlesController = GetComponent<RaycastHitParticlesController>();
             dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
@@ -78,7 +82,7 @@ namespace Player
             var raycastOrigin = transform1.position;
             var raycastDirection = transform1.forward;
             const float raycastDistance = 100f;
-            if (Physics.Raycast(raycastOrigin, raycastDirection, out var hit, raycastDistance))
+            if (Physics.Raycast(raycastOrigin, raycastDirection, out var hit, raycastDistance, ignoreLayerMask))
             {
                 var zombieBehaviour = hit.collider.GetComponent<Enemy.Zombie.ZombieBehaviour>();
                 if (zombieBehaviour != null)
