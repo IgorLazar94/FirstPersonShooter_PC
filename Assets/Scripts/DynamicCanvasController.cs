@@ -14,6 +14,9 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private Animation crosshairMovedAnim;
     [SerializeField] private Animation hitDetectAnim;
     [SerializeField] private TextMeshProUGUI playerHealthText;
+    [SerializeField] private GameObject notePanel;
+    [SerializeField] private GameObject hUDPanel;
+    [SerializeField] private TextMeshProUGUI noteText;
     private Animation treatmentAnimation;
     private int lastBulletsInPistol;
     private int lastBulletsInInventory;
@@ -88,5 +91,14 @@ public class DynamicCanvasController : MonoBehaviour
         {
             playerHealthText.color = Color.red;
         }
+    }
+
+    public void ShowNote(string newText)
+    {
+        hUDPanel.SetActive(false);
+        notePanel.transform.localScale = Vector3.zero;
+        notePanel.gameObject.SetActive(true);
+        noteText.text = newText;
+        notePanel.transform.DOScale(Vector3.one, 0.5f);
     }
 }
