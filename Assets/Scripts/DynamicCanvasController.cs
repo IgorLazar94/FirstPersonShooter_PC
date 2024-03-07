@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class DynamicCanvasController : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private TextMeshProUGUI textInteractableMessage;
     [SerializeField] private TextMeshProUGUI bulletsLoadedInPistol;
     [SerializeField] private TextMeshProUGUI bulletsInPlayerInventory;
@@ -96,9 +97,10 @@ public class DynamicCanvasController : MonoBehaviour
     public void ShowNote(string newText)
     {
         hUDPanel.SetActive(false);
+        gameManager.EnablePause();
         notePanel.transform.localScale = Vector3.zero;
         notePanel.gameObject.SetActive(true);
         noteText.text = newText;
-        notePanel.transform.DOScale(Vector3.one, 0.5f);
+        notePanel.transform.DOScale(Vector3.one, 0.5f).SetUpdate(true);
     }
 }
