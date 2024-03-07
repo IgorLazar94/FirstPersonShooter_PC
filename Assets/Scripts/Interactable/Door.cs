@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using DG.Tweening;
 using Interactable;
 using Interactable.Lightning;
@@ -51,24 +52,28 @@ public class Door : MonoBehaviour, IInteractable
 
         if (isDoorOpen)
         {
-            audioSource.clip = DoorSoundCollection.instance.DoorOpen;
-            audioSource.Play();
+            StartCoroutine(PlayDoorSoundWithDelay(DoorSoundCollection.instance.DoorOpen, 0.4f));
             transform.DOLocalRotate(isCloseRotation, 1f);
             isDoorOpen = false;
         }
         else
         {
-            audioSource.clip = DoorSoundCollection.instance.DoorClose;
-            audioSource.Play();
+            StartCoroutine(PlayDoorSoundWithDelay(DoorSoundCollection.instance.DoorClose, 0.7f));
             transform.DOLocalRotate(isOpenRotation, 1f);
             isDoorOpen = true;
         }
     }
 
+    private IEnumerator PlayDoorSoundWithDelay(AudioClip sound, float time)
+    {
+        yield return new WaitForSeconds(time);
+        audioSource.clip = sound;
+        audioSource.Play();
+    }
+
     private void ShakeDoor()
     {
-        audioSource.clip = DoorSoundCollection.instance.DoorLocked;
-        audioSource.Play();
+        StartCoroutine(PlayDoorSoundWithDelay(DoorSoundCollection.instance.DoorLocked, 0f));
         Sequence sequence = DOTween.Sequence();
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, targetAngle, 0f), 0.2f));
         sequence.Append(transform.DOLocalRotate(new Vector3(0f, -targetAngle, 0f), 0.2f));

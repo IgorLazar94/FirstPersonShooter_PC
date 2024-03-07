@@ -13,6 +13,7 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private GameObject deathPanel;
     [SerializeField] private Animation crosshairMovedAnim;
     [SerializeField] private Animation hitDetectAnim;
+    [SerializeField] private TextMeshProUGUI playerHealthText;
     private Animation treatmentAnimation;
     private int lastBulletsInPistol;
     private int lastBulletsInInventory;
@@ -33,11 +34,12 @@ public class DynamicCanvasController : MonoBehaviour
         {
             bulletsLoadedInPistol.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
         }
+
         if (lastBulletsInInventory != bulletsInInventory)
         {
             bulletsInPlayerInventory.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
         }
-        
+
         bulletsLoadedInPistol.text = bulletsInPistol.ToString();
         bulletsInPlayerInventory.text = bulletsInInventory.ToString();
         lastBulletsInPistol = bulletsInPistol;
@@ -68,5 +70,23 @@ public class DynamicCanvasController : MonoBehaviour
     public void PlayDetectAnim()
     {
         hitDetectAnim.Play();
+    }
+
+    public void UpdatePlayerHealthText(int hp)
+    {
+        playerHealthText.text = "Health points: " + hp;
+        playerHealthText.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
+        if (hp >= 70)
+        {
+            playerHealthText.color = Color.green;
+        }
+        else if (hp > 30)
+        {
+            playerHealthText.color = Color.yellow;
+        }
+        else
+        {
+            playerHealthText.color = Color.red;
+        }
     }
 }

@@ -17,6 +17,7 @@ namespace Player
         private void Start()
         {
             playerHealth = maxPlayerHealth;
+            UpdateHealthBarOnCanvas();
             firstPersonController = GetComponent<FirstPersonController>();
         }
 
@@ -24,6 +25,7 @@ namespace Player
         {
             playerHealth -= damage;
             playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
+            UpdateHealthBarOnCanvas();
             PlayerAudioManager.instance.PlaySFX(AudioCollection.PlayerTakeDamage);
             Invoke(nameof(CheckPlayerHp), 0.5f); // invoke for attack
         }
@@ -53,6 +55,7 @@ namespace Player
         {
             playerHealth += healthPoints;
             playerHealth = Mathf.Clamp(playerHealth, 0, maxPlayerHealth);
+            UpdateHealthBarOnCanvas();
             PlayerAudioManager.instance.PlaySFX(AudioCollection.PickupFirstAidKit);
             dynamicCanvas.ActivateTreatmentEffect();
         }
@@ -60,6 +63,11 @@ namespace Player
         public void AddPlayerAmmo(int ammoCount)
         {
             weaponController.AddBulletsToInventory(ammoCount);
+        }
+
+        private void UpdateHealthBarOnCanvas()
+        {
+            dynamicCanvas.UpdatePlayerHealthText(playerHealth);
         }
     }
 }
