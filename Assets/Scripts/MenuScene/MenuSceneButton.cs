@@ -26,7 +26,7 @@ namespace MenuScene
             buttonText = GetComponentInChildren<TextMeshProUGUI>();
         }
 
-        private void SwitchButtonText(TypeOfLocalization typeOfLocalization)
+        public void SwitchButtonText(TypeOfLocalization typeOfLocalization)
         {
             switch (typeOfLocalization)
             {
