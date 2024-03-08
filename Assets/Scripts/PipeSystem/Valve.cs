@@ -8,6 +8,7 @@ namespace PipeSystem
 {
     public class Valve : MonoBehaviour, IInteractable
     {
+        private AudioSource audioSource;
         private PipeSystem pipeSystem;
         private readonly string messageEn = "press E to close valve";
         private readonly string messageUa = "press E to close valve";
@@ -16,6 +17,7 @@ namespace PipeSystem
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             CheckLocalization();
         }
 
@@ -32,6 +34,7 @@ namespace PipeSystem
         public void ActivateAction()
         {
             if (!isOpen) return;
+            audioSource.Play();
             isOpen = false;
             pipeSystem.CloseValve();
             CloseValveAnimation();

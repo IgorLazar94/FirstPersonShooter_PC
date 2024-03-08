@@ -12,7 +12,7 @@ namespace Interactable
 
         private void Start()
         {
-            CheckLocalization();
+            LocalCheckLocalization();
         }
 
         public override string GetInteractionPlayerMessage()
@@ -26,7 +26,7 @@ namespace Interactable
             Destroy(this.gameObject);
         }
         
-        private new void CheckLocalization()
+        private new void LocalCheckLocalization()
         {
             if (LocalizationController.currentLocalization == TypeOfLocalization.English)
             {

@@ -9,9 +9,11 @@ namespace TriggerScenarioZones
         [SerializeField] private GameManager gameManager;
         [SerializeField] private PipeSystem.PipeSystem pipeSystem;
         private BoxCollider triggerCollider;
+        private AudioSource audioSource;
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
             triggerCollider = GetComponent<BoxCollider>();
         }
 
@@ -22,6 +24,7 @@ namespace TriggerScenarioZones
                 gameManager.SetNewScenarioStage(GameScenarioLevel.BurstPipe);
                 pipeSystem.StartFire();
                 triggerCollider.enabled = false;
+                audioSource.Play();
             }
         }
     }

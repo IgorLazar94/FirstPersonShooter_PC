@@ -23,6 +23,7 @@ namespace PipeSystem
         public void StartFire()
         {
             fireZone.enabled = true;
+            fireZone.PlayFireSound();
             foreach (var fx in fireParticles)
             {
                 fx.Play();

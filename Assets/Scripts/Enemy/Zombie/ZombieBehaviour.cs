@@ -26,8 +26,10 @@ namespace Enemy.Zombie
         private bool isDeath;
         private PlayerState playerState;
         private int zombieDamage = 10;
-        private float timeSinceLastAttack = 0f;
+        private float timeSinceLastAttack;
         private float attackInterval = 1.5f;
+        private float defaultZombieSpeed = 2.5f;
+        private float increasedZombieSpeed = 3.5f;
 
         private void Start()
         {
@@ -132,13 +134,14 @@ namespace Enemy.Zombie
                 {
                     SetMoveAnimation(0);
                     OnHandleMovedZombieToPlayer();
-                    zombieAgent.speed *= 1.5f;
+                    zombieAgent.speed = increasedZombieSpeed;
                 }
                 else
                 {
                     int random = Random.Range(1, 3);
                     SetMoveAnimation(random);
                     OnHandleMovedZombieToPlayer();
+                    zombieAgent.speed = defaultZombieSpeed;
                 }
             }
         }

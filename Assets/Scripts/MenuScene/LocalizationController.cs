@@ -11,9 +11,30 @@ namespace MenuScene
 
     public class LocalizationController : MonoBehaviour
     {
+        private static LocalizationController _instance;
+        public static LocalizationController Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    GameObject singleton = new GameObject("MySingleton");
+                    _instance = singleton.AddComponent<LocalizationController>();
+                    DontDestroyOnLoad(singleton);
+                }
+
+                return _instance;
+            }
+        }
+        
         public static Action<TypeOfLocalization> onLanguageChanged;
         public static TypeOfLocalization currentLocalization;
         private TypeOfLocalization defaultLocalization = TypeOfLocalization.English;
+
+        private void Awake()
+        {
+            MakeSingleton();
+        }
 
         private void Start()
         {
@@ -37,6 +58,19 @@ namespace MenuScene
                 currentLocalization = TypeOfLocalization.English;
             }
             onLanguageChanged?.Invoke(currentLocalization);
+        }
+
+        private void MakeSingleton()
+        {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                _instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
         }
     }
 }
