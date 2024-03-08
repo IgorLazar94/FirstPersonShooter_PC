@@ -4,5 +4,6 @@ namespace Interactable
     {
         public string GetInteractionPlayerMessage();
         public void ActivateAction();
+        public void CheckLocalization();
     }
 }

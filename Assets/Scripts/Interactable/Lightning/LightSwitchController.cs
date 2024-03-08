@@ -1,12 +1,15 @@
 using System;
 using Interactable;
 using UnityEngine;
+using MenuScene;
 
 namespace Lightning
 {
     public class LightSwitchController : MonoBehaviour, IInteractable
     {
-        [SerializeField] private string interactionMessage = "press E to switch the light";
+        private string interactionMessageEn = "press E to switch the light";
+        private string interactionMessageUa = "натисніть Е, щоб увімкнути світло";
+        private string actualMessage;
         [SerializeField] private Light[] connectingLights;
         [SerializeField] private bool isEnable;
         private Animator switchAnimator;
@@ -14,18 +17,31 @@ namespace Lightning
 
         private void Start()
         {
+            CheckLocalization();
             audioSource = GetComponent<AudioSource>();
             switchAnimator = GetComponent<Animator>();
         }
 
         public string GetInteractionPlayerMessage()
         {
-            return interactionMessage;
+            return actualMessage;
         }
 
         public void ActivateAction()
         {
             SwitchLight();
+        }
+
+        public void CheckLocalization()
+        {
+            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            {
+                actualMessage = interactionMessageEn;
+            }
+            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            {
+                actualMessage = interactionMessageUa;
+            }
         }
 
         private void SwitchLight()

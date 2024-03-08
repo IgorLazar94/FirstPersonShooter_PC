@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using MenuScene;
 
 public class DynamicCanvasController : MonoBehaviour
 {
@@ -82,7 +83,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void UpdatePlayerHealthText(int hp)
     {
-        playerHealthText.text = "Health points: " + hp;
+        CheckLocalization(hp);
         playerHealthText.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
         if (hp >= 70)
         {
@@ -95,6 +96,18 @@ public class DynamicCanvasController : MonoBehaviour
         else
         {
             playerHealthText.color = Color.red;
+        }
+    }
+
+    private void CheckLocalization(int hp)
+    {
+        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        {
+            playerHealthText.text = "Health points: " + hp;
+        }
+        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        {
+            playerHealthText.text = "Здоров'я ігрока: " + hp;
         }
     }
 

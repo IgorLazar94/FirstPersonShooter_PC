@@ -1,41 +1,44 @@
-using System;
-using MenuScene;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class MenuSceneButton : MonoBehaviour
+namespace MenuScene
 {
-    [SerializeField] private string ukrainianText;
-    [SerializeField] private string englishText;
-    private TextMeshProUGUI buttonText;
-
-    private void OnEnable()
+    [RequireComponent(typeof(Button))]
+    public class MenuSceneButton : MonoBehaviour
     {
-        LocalizationController.onLanguageChanged += SwitchButtonText;
-    }
+        [SerializeField] private string ukrainianText;
+        [SerializeField] private string englishText;
+        private TextMeshProUGUI buttonText;
 
-    private void OnDisable()
-    {
-        LocalizationController.onLanguageChanged -= SwitchButtonText;
-    }
-
-    private void Start()
-    {
-        buttonText = GetComponentInChildren<TextMeshProUGUI>();
-    }
-
-    private void SwitchButtonText(TypeOfLocalization typeOfLocalization)
-    {
-        switch (typeOfLocalization)
+        private void OnEnable()
         {
-            case TypeOfLocalization.English:
-                buttonText.text = englishText;
-                break;
-            case TypeOfLocalization.Ukrainian:
-                buttonText.text = ukrainianText;
-                break;
+            LocalizationController.onLanguageChanged += SwitchButtonText;
         }
+
+        private void OnDisable()
+        {
+            LocalizationController.onLanguageChanged -= SwitchButtonText;
+        }
+
+        private void Awake()
+        {
+            buttonText = GetComponentInChildren<TextMeshProUGUI>();
+        }
+
+        private void SwitchButtonText(TypeOfLocalization typeOfLocalization)
+        {
+            switch (typeOfLocalization)
+            {
+                case TypeOfLocalization.English:
+                    buttonText.text = englishText;
+                    break;
+                case TypeOfLocalization.Ukrainian:
+                    buttonText.text = ukrainianText;
+                    break;
+            }
+        }
+        
+        
     }
 }

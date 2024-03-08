@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using UnityEngine;
+using MenuScene;
 
 namespace Interactable.Lightning
 {
@@ -10,11 +11,13 @@ namespace Interactable.Lightning
         public delegate void OnSwitchElectricity(bool isEnable);
 
         [SerializeField] private GameManager gameManager;
-        [SerializeField] private string message = "Press E to enable electric shield";
         [SerializeField] private Transform alarmLight;
         [SerializeField] private Light[] connectLights;
         [SerializeField] private AudioClip lightSfx;
         [SerializeField] private AudioClip alarmSfx;
+        private string messageEn = "Press E to enable electric shield";
+        private string messageUA = "натисніть Е, щоб взаємодіяти з електрощитком";
+        private string actualLanguage;
         private AudioSource audioSource;
         private Animator shieldAnimator;
         private Tween alarmLightTween;
@@ -22,6 +25,7 @@ namespace Interactable.Lightning
 
         private void Start()
         {
+            CheckLocalization();
             isHasElectricity = true;
             audioSource = GetComponent<AudioSource>();
             shieldAnimator = GetComponent<Animator>();
@@ -32,7 +36,7 @@ namespace Interactable.Lightning
         {
             if (!isHasElectricity)
             {
-                return message;
+                return actualLanguage;
             }
             else
             {
@@ -45,6 +49,18 @@ namespace Interactable.Lightning
             if (!isHasElectricity)
             {
                 shieldAnimator.SetTrigger(StringAnimCollection.OpenShield);
+            }
+        }
+
+        public void CheckLocalization()
+        {
+            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            {
+                actualLanguage = messageEn;
+            }
+            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            {
+                actualLanguage = messageUA;
             }
         }
 

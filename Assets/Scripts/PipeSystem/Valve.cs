@@ -2,15 +2,23 @@ using System;
 using Interactable;
 using UnityEngine;
 using DG.Tweening;
+using MenuScene;
 
 namespace PipeSystem
 {
     public class Valve : MonoBehaviour, IInteractable
     {
         private PipeSystem pipeSystem;
-        private string message = "press E to close valve";
+        private readonly string messageEn = "press E to close valve";
+        private readonly string messageUa = "press E to close valve";
+        private string actualMessage;
         private bool isOpen = true;
-        
+
+        private void Start()
+        {
+            CheckLocalization();
+        }
+
         public void SetPipeSystem(PipeSystem pipeSystem)
         {
             this.pipeSystem = pipeSystem;
@@ -18,7 +26,7 @@ namespace PipeSystem
 
         public string GetInteractionPlayerMessage()
         {
-            return isOpen ? message : null;
+            return isOpen ? actualMessage : null;
         }
 
         public void ActivateAction()
@@ -27,6 +35,18 @@ namespace PipeSystem
             isOpen = false;
             pipeSystem.CloseValve();
             CloseValveAnimation();
+        }
+
+        public void CheckLocalization()
+        {
+            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            {
+                actualMessage = messageEn;
+            }
+            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            {
+                actualMessage = messageUa;
+            }
         }
 
         private void CloseValveAnimation()

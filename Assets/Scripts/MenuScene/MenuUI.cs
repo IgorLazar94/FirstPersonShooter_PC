@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MenuScene
 {
@@ -13,7 +14,7 @@ namespace MenuScene
             controlTexts = controlPanel.GetComponentsInChildren<ControlText>();
         }
 
-        public void ActivateControlPanel(bool isActive)
+        public void ActivateControlPanel(bool isActive) // OnClickEvent
         {
             controlPanel.SetActive(isActive);
             CheckLocalization();
@@ -25,6 +26,11 @@ namespace MenuScene
             {
                 controlText.CheckLanguage();
             }
+        }
+
+        public void LoadGameplayScene() // OnClickEvent
+        {
+            SceneManager.LoadScene("AsylumLevel");
         }
     }
 }

@@ -1,17 +1,19 @@
-using System;
 using System.Collections;
 using DG.Tweening;
 using Interactable;
 using Interactable.Lightning;
 using TMPro;
 using UnityEngine;
+using MenuScene;
 
 public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] private float targetAngle;
     [SerializeField] private bool isDoorLocked = false;
     [SerializeField] private bool isElectricDoor = false;
-    private string interactionMessage = "press E to open the door";
+    private readonly string interactionMessageEn = "press E to open the door";
+    private readonly string interactionMessageUa = "Натисніть Е, щоб відчинити двері";
+    private string actualMessage;
     private AudioSource audioSource;
     private TextMeshPro electricDoorInfo;
     private bool isDoorOpen = false;
@@ -30,6 +32,7 @@ public class Door : MonoBehaviour, IInteractable
 
     private void Start()
     {
+        CheckLocalization();
         audioSource = GetComponent<AudioSource>();
         electricDoorInfo = GetComponentInChildren<TextMeshPro>();
         var rotation = transform.rotation;
@@ -39,7 +42,7 @@ public class Door : MonoBehaviour, IInteractable
 
     public string GetInteractionPlayerMessage()
     {
-        return interactionMessage;
+        return actualMessage;
     }
 
     public void ActivateAction()
@@ -61,6 +64,18 @@ public class Door : MonoBehaviour, IInteractable
             StartCoroutine(PlayDoorSoundWithDelay(DoorSoundCollection.instance.DoorClose, 0.7f));
             transform.DOLocalRotate(isOpenRotation, 1f);
             isDoorOpen = true;
+        }
+    }
+
+    public void CheckLocalization()
+    {
+        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        {
+            actualMessage = interactionMessageEn;
+        }
+        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        {
+            actualMessage = interactionMessageUa;
         }
     }
 
