@@ -5,6 +5,7 @@ namespace Player
 {
     public class InputController : MonoBehaviour
     {
+        [SerializeField] private DynamicCanvasController dynamicCanvas;
         [SerializeField] private WeaponController weaponController;
         [SerializeField] private PlayerFlashlightController flashlight;
         [SerializeField] private AudioSource footstepAudioSource;
@@ -42,6 +43,14 @@ namespace Player
             if (Input.GetMouseButtonDown(1))
             {
                 weaponController.MeleeAttack();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (dynamicCanvas.IsEnableNotePanel)
+                {
+                    dynamicCanvas.HideNote();
+                }
             }
         }
 

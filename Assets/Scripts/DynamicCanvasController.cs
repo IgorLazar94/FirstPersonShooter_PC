@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class DynamicCanvasController : MonoBehaviour
 {
+    public bool IsEnableNotePanel { get; private set; }
+
+    [SerializeField] private FirstPersonController firstPersonController;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private TextMeshProUGUI textInteractableMessage;
     [SerializeField] private TextMeshProUGUI bulletsLoadedInPistol;
@@ -24,6 +27,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     private void Start()
     {
+        IsEnableNotePanel = false;
         treatmentAnimation = GetComponent<Animation>();
     }
 
@@ -96,11 +100,27 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void ShowNote(string newText)
     {
+        IsEnableNotePanel = true;
         hUDPanel.SetActive(false);
         gameManager.EnablePause();
         notePanel.transform.localScale = Vector3.zero;
         notePanel.gameObject.SetActive(true);
         noteText.text = newText;
         notePanel.transform.DOScale(Vector3.one, 0.5f).SetUpdate(true);
+        firstPersonController.enabled = false;
+    }
+
+    public void HideNote()
+    {
+        notePanel.transform.DOScale(Vector3.zero, 0.5f).SetUpdate(true).OnComplete(HideNotePanel);
+    }
+
+    private void HideNotePanel()
+    {
+        gameManager.ResumePauseGame();
+        IsEnableNotePanel = false;
+        hUDPanel.SetActive(true);
+        notePanel.gameObject.SetActive(false);
+        firstPersonController.enabled = true;
     }
 }
