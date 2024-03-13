@@ -8,6 +8,7 @@ namespace PipeSystem
         [SerializeField] private ParticleSystem[] fireParticles;
         [SerializeField] private ParticleSystem[] afterFireParticles;
         [SerializeField] private FireZone fireZone;
+        [SerializeField] private Light fireLight;
         private Valve[] valves;
         private int closedValves;
 
@@ -24,6 +25,7 @@ namespace PipeSystem
         {
             fireZone.enabled = true;
             fireZone.PlayFireSound();
+            fireLight.enabled = true;
             foreach (var fx in fireParticles)
             {
                 fx.Play();
@@ -33,6 +35,7 @@ namespace PipeSystem
         private void RemoveFire()
         {
             fireZone.enabled = false;
+            fireLight.enabled = false;
             foreach (var fx in fireParticles)
             {
                 fx.Stop();

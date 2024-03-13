@@ -8,6 +8,7 @@ namespace PipeSystem
 {
     public class Valve : MonoBehaviour, IInteractable
     {
+        private SingleValveLight singleValveLight;
         private AudioSource audioSource;
         private PipeSystem pipeSystem;
         private readonly string messageEn = "press E to close valve";
@@ -18,6 +19,8 @@ namespace PipeSystem
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();
+            singleValveLight = transform.parent.GetComponentInChildren<SingleValveLight>();
+            singleValveLight.SwitchLight(isOpen);
             CheckLocalization();
         }
 
@@ -55,7 +58,7 @@ namespace PipeSystem
         private void CloseValveAnimation()
         {
             transform.DOLocalRotate(new Vector3(0f, 180f, 0f), 1.0f, RotateMode.LocalAxisAdd)
-                .SetEase(Ease.Linear);
+                .SetEase(Ease.Linear).OnComplete(() => singleValveLight.SwitchLight(isOpen));
         }
     }
 }
