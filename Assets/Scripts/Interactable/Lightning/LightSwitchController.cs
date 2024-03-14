@@ -20,7 +20,7 @@ namespace Lightning
             CheckLocalization();
             audioSource = GetComponent<AudioSource>();
             switchAnimator = GetComponent<Animator>();
-            
+
             foreach (var light in connectingLights)
             {
                 light.enabled = isEnable;
@@ -64,8 +64,12 @@ namespace Lightning
 
         private void ActivateSwitchAnimation(bool isEnabled)
         {
-            switchAnimator.SetTrigger(StringAnimCollection.Switch);
-            switchAnimator.SetBool(StringAnimCollection.IsActive, isEnabled);
+            if (switchAnimator != null)
+            {
+                switchAnimator.SetTrigger(StringAnimCollection.Switch);
+                switchAnimator.SetBool(StringAnimCollection.IsActive, isEnabled);
+            }
+
             if (isEnabled)
             {
                 audioSource.Play();

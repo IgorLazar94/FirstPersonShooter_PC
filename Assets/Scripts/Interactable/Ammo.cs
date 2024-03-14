@@ -4,7 +4,7 @@ namespace Interactable
 {
     public class Ammo : Drop
     {
-        private const int BulletsInAmmoBox = 14;
+        private const int BulletsInAmmoBox = 7;
         private readonly string interactionMessageEn = "Press E to pickup ammo box";
         private readonly string interactionMessageUa = "Press E to pickup ammo box";
         private string interactionMessage;

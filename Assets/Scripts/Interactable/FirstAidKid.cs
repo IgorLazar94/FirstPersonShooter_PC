@@ -7,7 +7,7 @@ namespace Interactable
         private const int AddHealthPoints = 20;
         private const string InteractionMessageEn = "Press E to pickup first aid kit";
         private const string InteractionMessageUa = "Наптисніть Е, щоб підібрати аптечку";
-        private string actualMessage;
+        private string actualFirstAidMessage;
 
 
         private void Start()
@@ -17,7 +17,7 @@ namespace Interactable
 
         public override string GetInteractionPlayerMessage()
         {
-            return actualMessage;
+            return actualFirstAidMessage;
         }
 
         public override void ActivateAction()
@@ -30,11 +30,11 @@ namespace Interactable
         {
             if (LocalizationController.currentLocalization == TypeOfLocalization.English)
             {
-                actualMessage = InteractionMessageEn;
+                actualFirstAidMessage = InteractionMessageEn;
             }
             else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
             {
-                actualMessage = InteractionMessageUa;
+                actualFirstAidMessage = InteractionMessageUa;
             }
         }
     }
