@@ -7,6 +7,7 @@ namespace MenuScene
     public class MenuUI : MonoBehaviour
     {
         [SerializeField] private GameObject controlPanel;
+        [SerializeField] private LoadControl loadPanel;
         private ControlText[] controlTexts;
         private MenuSceneButton backButton;
 
@@ -33,7 +34,10 @@ namespace MenuScene
 
         public void LoadGameplayScene() // OnClickEvent
         {
-            SceneManager.LoadScene("AsylumLevel");
+            loadPanel.gameObject.SetActive(true);
+            loadPanel.InitLoadPanel();
+            Cursor.visible = false;
+            SceneManager.LoadSceneAsync("AsylumLevel");
         }
     }
 }
