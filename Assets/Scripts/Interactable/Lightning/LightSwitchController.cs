@@ -20,6 +20,13 @@ namespace Lightning
             CheckLocalization();
             audioSource = GetComponent<AudioSource>();
             switchAnimator = GetComponent<Animator>();
+            
+            foreach (var light in connectingLights)
+            {
+                light.enabled = isEnable;
+            }
+
+            ActivateSwitchAnimation(isEnable);
         }
 
         public string GetInteractionPlayerMessage()
@@ -51,6 +58,7 @@ namespace Lightning
             {
                 light.enabled = isEnable;
             }
+
             ActivateSwitchAnimation(isEnable);
         }
 
