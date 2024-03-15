@@ -11,6 +11,11 @@ namespace Interactable
         private readonly string interactionMessageUa = "натисніть Е, щоб втекти зі шпиталю";
         private string actualMessage;
 
+        private void Awake()
+        {
+            CheckLocalization();
+        }
+
         public string GetInteractionPlayerMessage()
         {
             return actualMessage;

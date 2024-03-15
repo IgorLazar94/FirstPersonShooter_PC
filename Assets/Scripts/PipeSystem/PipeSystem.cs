@@ -9,12 +9,16 @@ namespace PipeSystem
         [SerializeField] private ParticleSystem[] afterFireParticles;
         [SerializeField] private FireZone fireZone;
         [SerializeField] private Light fireLight;
+        private ViewPipeSystem viewPipeSystem;
         private Valve[] valves;
         private int closedValves;
+        private bool isAlarmActivate;
 
         private void Start()
         {
+            isAlarmActivate = false;
             valves = GetComponentsInChildren<Valve>();
+            viewPipeSystem = GetComponentInChildren<ViewPipeSystem>();
             foreach (var valve in valves)
             {
                 valve.SetPipeSystem(this);
@@ -23,9 +27,12 @@ namespace PipeSystem
 
         public void StartFire()
         {
-            fireZone.enabled = true;
-            fireZone.PlayFireSound(true);
-            fireLight.enabled = true;
+            isAlarmActivate = true;
+            fireZone.enabled = isAlarmActivate;
+            fireZone.PlayFireSound(isAlarmActivate);
+            fireLight.enabled = isAlarmActivate;
+            viewPipeSystem.EnableAlarm(isAlarmActivate);
+            viewPipeSystem.UpdateComputerText(isAlarmActivate, valves.Length - closedValves);
             foreach (var fx in fireParticles)
             {
                 fx.Play();
@@ -34,10 +41,13 @@ namespace PipeSystem
 
         private void RemoveFire()
         {
-            fireZone.enabled = false;
-            fireLight.enabled = false;
+            isAlarmActivate = false;
+            fireZone.enabled = isAlarmActivate;
+            fireLight.enabled = isAlarmActivate;
             fireZone.DisableFireZoneCollider();
-            fireZone.PlayFireSound(false);
+            fireZone.PlayFireSound(isAlarmActivate);
+            viewPipeSystem.EnableAlarm(isAlarmActivate);
+            viewPipeSystem.UpdateComputerText(isAlarmActivate, valves.Length - closedValves);
             foreach (var fx in fireParticles)
             {
                 fx.Stop();
@@ -51,9 +61,18 @@ namespace PipeSystem
         public void CloseValve()
         {
             closedValves++;
+            viewPipeSystem.UpdateComputerText(isAlarmActivate, valves.Length - closedValves);
             if (closedValves >= valves.Length)
             {
                 RemoveFire();
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                CloseValve();
             }
         }
     }
