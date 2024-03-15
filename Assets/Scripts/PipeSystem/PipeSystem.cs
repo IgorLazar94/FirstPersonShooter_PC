@@ -24,7 +24,7 @@ namespace PipeSystem
         public void StartFire()
         {
             fireZone.enabled = true;
-            fireZone.PlayFireSound();
+            fireZone.PlayFireSound(true);
             fireLight.enabled = true;
             foreach (var fx in fireParticles)
             {
@@ -36,6 +36,8 @@ namespace PipeSystem
         {
             fireZone.enabled = false;
             fireLight.enabled = false;
+            fireZone.DisableFireZoneCollider();
+            fireZone.PlayFireSound(false);
             foreach (var fx in fireParticles)
             {
                 fx.Stop();

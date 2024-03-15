@@ -10,12 +10,16 @@ public class SingleValveLight : MonoBehaviour
     private Light singleLight;
     private MeshRenderer meshRenderer;
 
-    private void Start()
+    private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
         singleLight = GetComponentInChildren<Light>();
-        SwitchLight(false);
     }
+
+    // private void Start()
+    // {
+    //     SwitchLight(false);
+    // }
 
     public void SwitchLight(bool isValveOpen)
     {

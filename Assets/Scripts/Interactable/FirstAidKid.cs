@@ -26,7 +26,7 @@ namespace Interactable
             Destroy(this.gameObject);
         }
         
-        private new void LocalCheckLocalization()
+        private void LocalCheckLocalization()
         {
             if (LocalizationController.currentLocalization == TypeOfLocalization.English)
             {

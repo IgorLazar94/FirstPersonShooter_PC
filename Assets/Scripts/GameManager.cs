@@ -2,6 +2,7 @@ using System;
 using Enemy.Zombie;
 using PauseSystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameScenarioLevel
 {
@@ -52,5 +53,24 @@ public class GameManager : MonoBehaviour
     public void ResumePauseGame()
     {
         pauseService.ResumeGame();
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MenuScene");
+    }
+    
+    public void UnlockCursor(bool isLocked)
+    {
+        if (isLocked)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
     }
 }

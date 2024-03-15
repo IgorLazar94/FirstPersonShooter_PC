@@ -1,10 +1,15 @@
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using MenuScene;
+using Player;
+using SFX;
+using Unity.VisualScripting;
+using Random = UnityEngine.Random;
 
 public class DynamicCanvasController : MonoBehaviour
 {
@@ -12,6 +17,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     [SerializeField] private FirstPersonController firstPersonController;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private GameObject creditPanel;
     [SerializeField] private TextMeshProUGUI textInteractableMessage;
     [SerializeField] private TextMeshProUGUI bulletsLoadedInPistol;
     [SerializeField] private TextMeshProUGUI bulletsInPlayerInventory;
@@ -22,14 +28,35 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private GameObject notePanel;
     [SerializeField] private GameObject hUDPanel;
     [SerializeField] private TextMeshProUGUI noteText;
+    [SerializeField] private TextMeshProUGUI creditTMPText;
+    [SerializeField] private Image[] crosshairLines;
+    [TextArea(5, 10)] [SerializeField] private string creditTextEn;
+    [TextArea(5, 10)] [SerializeField] private string creditTextUa;
+    [SerializeField] private Button backToMenuButton;
+    private string backToMenuEn = "Back to menu";
+    private string backToMenuUa = "Назад в меню";
+    private string creditActualText;
     private Animation treatmentAnimation;
     private int lastBulletsInPistol;
     private int lastBulletsInInventory;
+    private TextMeshProUGUI backToMenuText;
+
+    private void OnEnable()
+    {
+        PlayerFlashlightController.OnEnableFlashlight += SwitchCrosshairLines;
+    }
+
+    private void OnDisable()
+    {
+        PlayerFlashlightController.OnEnableFlashlight -= SwitchCrosshairLines;
+    }
 
     private void Start()
     {
         IsEnableNotePanel = false;
         treatmentAnimation = GetComponent<Animation>();
+        backToMenuText = backToMenuButton.GetComponentInChildren<TextMeshProUGUI>();
+        CheckLocalization();
     }
 
     public void UpdateTextMessage(string message)
@@ -83,7 +110,15 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void UpdatePlayerHealthText(int hp)
     {
-        CheckLocalization(hp);
+        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        {
+            playerHealthText.text = "Health points: " + hp;
+        }
+        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        {
+            playerHealthText.text = "Здоров'я ігрока: " + hp;
+        }
+
         playerHealthText.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
         if (hp >= 70)
         {
@@ -99,15 +134,17 @@ public class DynamicCanvasController : MonoBehaviour
         }
     }
 
-    private void CheckLocalization(int hp)
+    private void CheckLocalization()
     {
         if (LocalizationController.currentLocalization == TypeOfLocalization.English)
         {
-            playerHealthText.text = "Health points: " + hp;
+            creditActualText = creditTextEn;
+            backToMenuText.text = backToMenuEn;
         }
         else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
         {
-            playerHealthText.text = "Здоров'я ігрока: " + hp;
+            creditActualText = creditTextUa;
+            backToMenuText.text = backToMenuUa;
         }
     }
 
@@ -135,5 +172,74 @@ public class DynamicCanvasController : MonoBehaviour
         hUDPanel.SetActive(true);
         notePanel.gameObject.SetActive(false);
         firstPersonController.enabled = true;
+    }
+
+    public void ShowCreditText()
+    {
+        hUDPanel.SetActive(false);
+        firstPersonController.enabled = false;
+        creditPanel.SetActive(true);
+        gameManager.EnablePause();
+        creditPanel.GetComponent<Image>().DOFade(1f, 0.5f).SetUpdate(true);
+        StartCoroutine(SlowlyShowCreditTextWithSound());
+    }
+
+    private IEnumerator SlowlyShowCreditTextWithSound()
+    {
+        var elapsedTime = 0f;
+        var characterDelay = 0.05f;
+
+        foreach (var text in creditActualText)
+        {
+            creditTMPText.text += text;
+            PlayRandomTypeWriterSound();
+            while (elapsedTime < characterDelay)
+            {
+                elapsedTime += Time.unscaledDeltaTime;
+                yield return null;
+            }
+
+            elapsedTime = 0f;
+        }
+
+        backToMenuButton.gameObject.SetActive(true);
+        gameManager.UnlockCursor(false);
+    }
+
+    public void BackToMenu() // OnClick
+    {
+        gameManager.BackToMenu();
+    }
+
+    private void PlayRandomTypeWriterSound()
+    {
+        int random = Random.Range(0, 3);
+        switch (random)
+        {
+            case 0:
+                PlayerAudioManager.instance.PlaySFX(AudioCollection.TypeWriterPitched1);
+                break;
+            case 1:
+                PlayerAudioManager.instance.PlaySFX(AudioCollection.TypeWriterPitched2);
+                break;
+            case 2:
+                PlayerAudioManager.instance.PlaySFX(AudioCollection.TypeWriterPitched3);
+                break;
+        }
+    }
+
+    public void SwitchCrosshairLines(bool withFlashlight)
+    {
+        foreach (var line in crosshairLines)
+        {
+            if (withFlashlight)
+            {
+                line.color = Color.HSVToRGB(98f, 98f, 98f);
+            }
+            else
+            {
+                line.color = Color.white;
+            }
+        }
     }
 }

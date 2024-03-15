@@ -52,7 +52,7 @@ namespace SFX
                 StartCoroutine(ResetSFXPlayingStatus(s.clip.length));
             }
         }
-
+        
         private IEnumerator ResetSFXPlayingStatus(float delay)
         {
             yield return new WaitForSeconds(delay);

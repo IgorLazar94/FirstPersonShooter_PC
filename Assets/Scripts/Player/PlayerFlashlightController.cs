@@ -6,6 +6,7 @@ namespace Player
 {
     public class PlayerFlashlightController : MonoBehaviour
     {
+        public static Action<bool> OnEnableFlashlight;
         private bool isEnableLight;
         private Light flashlight;
         private Animator flashlightAnimator;
@@ -20,6 +21,7 @@ namespace Player
         public void SwitchFlashLight()
         {
             isEnableLight = !isEnableLight;
+            OnEnableFlashlight?.Invoke(isEnableLight);
             flashlight.enabled = isEnableLight;
             PlayerAudioManager.instance.PlaySFX(AudioCollection.Click);
         }

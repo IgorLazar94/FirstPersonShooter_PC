@@ -8,9 +8,11 @@ namespace PipeSystem
     {
         private readonly int damageFromFire = 15;
         private AudioSource audioSource;
+        private BoxCollider fireCollider;
 
         private void Start()
         {
+            fireCollider = GetComponent<BoxCollider>();
             audioSource = GetComponent<AudioSource>();
         }
 
@@ -22,9 +24,21 @@ namespace PipeSystem
             }
         }
 
-        public void PlayFireSound()
+        public void PlayFireSound(bool isPlay)
         {
-            audioSource.Play();
+            if (isPlay)
+            {
+                audioSource.Play();
+            }
+            else
+            {
+                audioSource.Stop();
+            }
+        }
+
+        public void DisableFireZoneCollider()
+        {
+            fireCollider.enabled = false;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Enemy.Zombie
         private bool isAttackPlayer;
         private bool isMoveToPlayer;
         private float distanceToPlayer;
-        private float distanceMoveToPlayer = 10f;
+        private float distanceMoveToPlayer = 7f;
         private bool isDeath;
         private PlayerState playerState;
         private int zombieDamage = 10;
@@ -52,6 +52,7 @@ namespace Enemy.Zombie
         {
             if (isMoveToPlayer && !isDeath)
             {
+                
                 if (distanceToPlayer < distanceToAttack)
                 {
                     PlayAttackPlayerAnimation();
@@ -125,7 +126,9 @@ namespace Enemy.Zombie
 
         private void CheckDistanceToPlayer()
         {
-            if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath)
+            float heightDifference = Mathf.Abs(transform.position.y - player.transform.position.y);
+            float maxHeightDifference = 1f;
+            if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath  && heightDifference < maxHeightDifference)
             {
                 PlayRandomAudio(findPlayer, findPlayer2);
                 isMoveToPlayer = true;

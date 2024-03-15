@@ -116,6 +116,7 @@ namespace Player
 
         public void CheckNearbyZombies()
         {
+            PlayerAudioManager.instance.PlaySFX(AudioCollection.MeleeAttack);
             float radius = 1f;
             Collider[] results = new Collider[10];
             int count = Physics.OverlapSphereNonAlloc(transform.position, radius, results);
