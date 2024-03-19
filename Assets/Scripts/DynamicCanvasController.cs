@@ -228,7 +228,7 @@ public class DynamicCanvasController : MonoBehaviour
         }
     }
 
-    public void SwitchCrosshairLines(bool withFlashlight)
+    private void SwitchCrosshairLines(bool withFlashlight)
     {
         foreach (var line in crosshairLines)
         {
@@ -240,6 +240,14 @@ public class DynamicCanvasController : MonoBehaviour
             {
                 line.color = Color.white;
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            BackToMenu();
         }
     }
 }

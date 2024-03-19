@@ -8,13 +8,25 @@ namespace MenuScene
     {
         [SerializeField] private GameObject controlPanel;
         [SerializeField] private LoadControl loadPanel;
+        [SerializeField] private ParticleSystem[] menuEffects;
         private ControlText[] controlTexts;
         private MenuSceneButton backButton;
 
         private void Start()
         {
+            PlayMenuEffects();
             controlTexts = controlPanel.GetComponentsInChildren<ControlText>();
             backButton = controlPanel.GetComponentInChildren<MenuSceneButton>();
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        private void PlayMenuEffects()
+        {
+            foreach (ParticleSystem fx in menuEffects)
+            {
+                fx.Play();
+            }
         }
 
         public void ActivateControlPanel(bool isActive) // OnClickEvent

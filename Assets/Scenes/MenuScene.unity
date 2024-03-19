@@ -515,6 +515,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlPanel: {fileID: 650815912}
   loadPanel: {fileID: 1302576481}
+  menuEffects:
+  - {fileID: 895024328}
+  - {fileID: 1418665376}
 --- !u!1001 &154195499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1232,6 +1235,12 @@ CanvasRenderer:
 --- !u!4 &895024326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4406025673956552, guid: d976a4a07ac6f35448b5fd44e2c07e91,
+    type: 3}
+  m_PrefabInstance: {fileID: 154195499}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &895024328 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198399775017477976, guid: d976a4a07ac6f35448b5fd44e2c07e91,
     type: 3}
   m_PrefabInstance: {fileID: 154195499}
   m_PrefabAsset: {fileID: 0}
@@ -2132,6 +2141,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1361848588}
   m_CullTransparentMesh: 1
+--- !u!198 &1418665376 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198291467559758650, guid: b72bef528f099a14d8eab50350452f58,
+    type: 3}
+  m_PrefabInstance: {fileID: 1750952078}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1538005072
 PrefabInstance:
   m_ObjectHideFlags: 0
