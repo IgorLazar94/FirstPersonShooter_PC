@@ -56,5 +56,10 @@ namespace MenuScene
         {
             LocalizationController.Instance.SwitchLanguageToAnother();
         }
+
+        public void Exit() // OnClickEvent
+        {
+            Application.Quit();
+        }
     }
 }

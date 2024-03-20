@@ -84,7 +84,7 @@ public class FirstPersonController : MonoBehaviour
     // Internal Variables
     private CanvasGroup sprintBarCG;
     private bool isSprinting = false;
-    private float sprintRemaining;
+    public float sprintRemaining;
     private float sprintBarWidth;
     private float sprintBarHeight;
     private bool isSprintCooldown = false;
@@ -439,6 +439,26 @@ public class FirstPersonController : MonoBehaviour
         }
 
         #endregion
+    }
+    
+    public void CheckSprintBarVisibility()
+    {
+        if (useSprintBar && !unlimitedSprint)
+        {
+            float sprintRemainingPercent = sprintRemaining / sprintDuration;
+            sprintBar.transform.localScale = new Vector3(sprintRemainingPercent, 1f, 1f);
+            if (hideBarWhenFull)
+            {
+                if (sprintRemainingPercent >= 1f)
+                {
+                    sprintBarCG.alpha = 0f;
+                }
+                else
+                {
+                    sprintBarCG.alpha = 1f;
+                }
+            }
+        }
     }
 
     // Sets isGrounded based on a raycast sent straigth down from the player object

@@ -238,7 +238,7 @@ public class DynamicCanvasController : MonoBehaviour
         {
             if (withFlashlight)
             {
-                line.color = Color.HSVToRGB(98f, 98f, 98f);
+                line.color = Color.green;
             }
             else
             {

@@ -9,6 +9,7 @@ namespace Player
         [SerializeField] private DynamicCanvasController dynamicCanvas; // Inject
         [SerializeField] private Animator pistolAnimator;
         [SerializeField] private ParticleSystem muzzleFlashPistol;
+        [SerializeField] private FirstPersonController firstPersonController;
         private int bulletsInInventory = 14;
         private int bulletsLoadedInPistol;
         private int maxBulletsInPistol = 7;
@@ -20,7 +21,7 @@ namespace Player
         private float timeToMeleeAttack = 1.5f;
         private int ignoreLayerMask;
         private string layerName = "TriggerZoneLayer";
-        
+
         private void Start()
         {
             ignoreLayerMask = ~LayerMask.GetMask(layerName);
@@ -32,7 +33,12 @@ namespace Player
         public void Shot()
         {
             if (!isReadyToShot) return;
-            if (bulletsLoadedInPistol <= 0) { Reload(); return;}
+            if (bulletsLoadedInPistol <= 0)
+            {
+                Reload();
+                return;
+            }
+
             dynamicCanvas.PlayCrosshairAnim();
             pistolAnimator.SetTrigger(StringAnimCollection.Shot);
             StartCoroutine((DelayBeforeNextShot(timeBetweenShots)));
@@ -43,7 +49,7 @@ namespace Player
             CheckTarget();
             raycastHitParticlesController.CheckTargetPoint();
         }
-        
+
         private IEnumerator DelayBeforeNextShot(float time)
         {
             isReadyToShot = false;
@@ -66,6 +72,7 @@ namespace Player
             {
                 return;
             }
+
             dynamicCanvas.UpdateBullets(bulletsLoadedInPistol, bulletsInInventory);
             pistolAnimator.SetTrigger(StringAnimCollection.Reload);
         }
@@ -106,8 +113,9 @@ namespace Player
 
         public void MeleeAttack()
         {
-            if (isReadyToShot)
+            if (isReadyToShot && firstPersonController.sprintRemaining > 3f)
             {
+                firstPersonController.sprintRemaining -= 3f;
                 StartCoroutine(DelayBeforeNextShot(timeToMeleeAttack));
                 pistolAnimator.SetTrigger(StringAnimCollection.MeleeAttack);
                 Invoke(nameof(CheckNearbyZombies), timeToMeleeAttack / 2);
@@ -116,6 +124,7 @@ namespace Player
 
         public void CheckNearbyZombies()
         {
+            firstPersonController.CheckSprintBarVisibility();
             PlayerAudioManager.instance.PlaySFX(AudioCollection.MeleeAttack);
             float radius = 1f;
             Collider[] results = new Collider[10];
