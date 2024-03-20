@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     public void SetNewScenarioStage(GameScenarioLevel newLevel)
     {
         gameScenarioLevel = newLevel;
+        QuestSystem.OnUpdateQuest?.Invoke();
     }
 
     public void ActivateNewZombieGroup()

@@ -51,5 +51,10 @@ namespace MenuScene
             Cursor.visible = false;
             SceneManager.LoadSceneAsync("AsylumLevel");
         }
+
+        public void SwitchLanguageFromButton() // OnClickEvent
+        {
+            LocalizationController.Instance.SwitchLanguageToAnother();
+        }
     }
 }

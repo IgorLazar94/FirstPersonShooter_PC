@@ -48,6 +48,7 @@ namespace PipeSystem
             fireZone.PlayFireSound(isAlarmActivate);
             viewPipeSystem.EnableAlarm(isAlarmActivate);
             viewPipeSystem.UpdateComputerText(isAlarmActivate, valves.Length - closedValves);
+            QuestSystem.OnUpdateQuest?.Invoke();
             foreach (var fx in fireParticles)
             {
                 fx.Stop();

@@ -72,6 +72,7 @@ namespace Interactable.Lightning
             ActivateConnectLights(true);
             SwitchElectricity?.Invoke(true);
             gameManager.ActivateNewZombieGroup();
+            QuestSystem.OnUpdateQuest?.Invoke();
         }
 
         private void RotateAlarmLight()

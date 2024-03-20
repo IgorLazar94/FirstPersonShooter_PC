@@ -16,6 +16,7 @@ public class DynamicCanvasController : MonoBehaviour
     public bool IsEnableNotePanel { get; private set; }
 
     [SerializeField] private FirstPersonController firstPersonController;
+    [SerializeField] private Transform questTextContainer;
     [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject creditPanel;
     [SerializeField] private TextMeshProUGUI textInteractableMessage;
@@ -116,7 +117,7 @@ public class DynamicCanvasController : MonoBehaviour
         }
         else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
         {
-            playerHealthText.text = "Здоров'я ігрока: " + hp;
+            playerHealthText.text = "Здоров'я гравця: " + hp;
         }
 
         playerHealthText.rectTransform.DOShakeAnchorPos(0.25f, Vector2.one * 10, 5, 180f);
@@ -150,6 +151,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void ShowNote(string newText)
     {
+        questTextContainer.gameObject.SetActive(false);
         IsEnableNotePanel = true;
         hUDPanel.SetActive(false);
         gameManager.EnablePause();
@@ -162,6 +164,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void HideNote()
     {
+        questTextContainer.gameObject.SetActive(true);
         notePanel.transform.DOScale(Vector3.zero, 0.5f).SetUpdate(true).OnComplete(HideNotePanel);
     }
 
@@ -176,6 +179,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void ShowCreditText()
     {
+        questTextContainer.gameObject.SetActive(false);
         hUDPanel.SetActive(false);
         firstPersonController.enabled = false;
         creditPanel.SetActive(true);
