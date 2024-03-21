@@ -22,8 +22,11 @@ namespace Interactable
 
         public override void ActivateAction()
         {
-            player.AddPlayerHealth(AddHealthPoints);
-            Destroy(this.gameObject);
+            if (player.GetPlayerHealth() < 100)
+            {
+                player.AddPlayerHealth(AddHealthPoints);
+                Destroy(this.gameObject);
+            }
         }
         
         private void LocalCheckLocalization()

@@ -110,7 +110,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void ReloadLevel() // OnClick event
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("AsylumLevel");
     }
 
     public void ActivateTreatmentEffect()

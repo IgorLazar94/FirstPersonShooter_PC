@@ -69,5 +69,10 @@ namespace Player
         {
             dynamicCanvas.UpdatePlayerHealthText(playerHealth);
         }
+
+        public int GetPlayerHealth()
+        {
+            return playerHealth;
+        }
     }
 }
