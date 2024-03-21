@@ -14,11 +14,14 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private ZombieActivator zombieActivator;
     [SerializeField] private GameObject decorativeZombie;
+    [SerializeField] private DynamicCanvasController dynamicCanvas;
+    [SerializeField] private FirstPersonController firstPersonController;
     private GameScenarioLevel gameScenarioLevel;
     private IPauseService pauseService;
 
     private void Start()
     {
+        Time.timeScale = 1;
         gameScenarioLevel = GameScenarioLevel.Morgue;
         SetPauseService(new PauseService());
     }
@@ -54,6 +57,22 @@ public class GameManager : MonoBehaviour
     public void ResumePauseGame()
     {
         pauseService.ResumeGame();
+    }
+
+    public void SwitchPause()
+    {
+        if (pauseService.IsPaused)
+        {
+            ResumePauseGame();
+        }
+        else
+        {
+            EnablePause();
+        }
+
+        firstPersonController.enabled = !pauseService.IsPaused;
+        UnlockCursor(!pauseService.IsPaused);
+        dynamicCanvas.SwitchPausePanel(pauseService.IsPaused);
     }
 
     public void BackToMenu()

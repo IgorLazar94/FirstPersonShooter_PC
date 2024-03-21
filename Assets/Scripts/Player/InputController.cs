@@ -6,6 +6,7 @@ namespace Player
     public class InputController : MonoBehaviour
     {
         [SerializeField] private DynamicCanvasController dynamicCanvas;
+        [SerializeField] private GameManager gameManager;
         [SerializeField] private WeaponController weaponController;
         [SerializeField] private PlayerFlashlightController flashlight;
         [SerializeField] private AudioSource footstepAudioSource;
@@ -50,6 +51,10 @@ namespace Player
                 if (dynamicCanvas.IsEnableNotePanel)
                 {
                     dynamicCanvas.HideNote();
+                }
+                else
+                {
+                    gameManager.SwitchPause();
                 }
             }
         }

@@ -14,6 +14,7 @@ namespace MenuScene
 
         private void Start()
         {
+            Time.timeScale = 1;
             PlayMenuEffects();
             controlTexts = controlPanel.GetComponentsInChildren<ControlText>();
             backButton = controlPanel.GetComponentInChildren<MenuSceneButton>();

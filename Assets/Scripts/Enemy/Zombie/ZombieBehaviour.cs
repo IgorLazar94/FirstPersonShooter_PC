@@ -12,7 +12,16 @@ namespace Enemy.Zombie
         [SerializeField] private bool isFastZombie;
         [SerializeField] private int healthPoints;
         [SerializeField] private int remainingResurrection;
-        [SerializeField] private AudioClip zombieAttack, zombieAttack2, takeDamage, takeDamage2, findPlayer, findPlayer2, zombieDie, zombieDie2;
+
+        [SerializeField] private AudioClip zombieAttack,
+            zombieAttack2,
+            takeDamage,
+            takeDamage2,
+            findPlayer,
+            findPlayer2,
+            zombieDie,
+            zombieDie2;
+
         private AudioSource audioSource;
         private ZombieHead zombieHead;
         private CapsuleCollider zombieCollider;
@@ -53,7 +62,6 @@ namespace Enemy.Zombie
         {
             if (isMoveToPlayer && !isDeath)
             {
-                
                 if (distanceToPlayer < distanceToAttack)
                 {
                     PlayAttackPlayerAnimation();
@@ -97,8 +105,7 @@ namespace Enemy.Zombie
             SwitchZombieCollider(isDeath);
             healthPoints = defaultHealthPoints;
         }
-        
-        
+
 
         private void PlayRandomAudio(AudioClip option1, AudioClip option2)
         {
@@ -111,6 +118,7 @@ namespace Enemy.Zombie
             {
                 audioSource.clip = option2;
             }
+
             audioSource.Play();
         }
 
@@ -134,7 +142,8 @@ namespace Enemy.Zombie
         {
             float heightDifference = Mathf.Abs(transform.position.y - player.transform.position.y);
             float maxHeightDifference = 1f;
-            if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath  && heightDifference < maxHeightDifference)
+            if (!isMoveToPlayer && distanceToPlayer < distanceMoveToPlayer && !isDeath &&
+                heightDifference < maxHeightDifference)
             {
                 PlayRandomAudio(findPlayer, findPlayer2);
                 isMoveToPlayer = true;

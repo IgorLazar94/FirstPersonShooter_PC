@@ -1,0 +1,52 @@
+using MenuScene;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class PausePanel : MonoBehaviour
+{
+    [SerializeField] private TextMeshProUGUI titleText;
+    [SerializeField] private Button backToMenuButton;
+    [SerializeField] private Button resumeGameButton;
+    
+    private string actualTitleText;
+    private string actualBackToMenuBtnText;
+    private string actualResumeGameBtnText;
+
+    private string titleTextEn = "Game on pause";
+    private string backToMenuEn = "Back to menu";
+    private string resumeGameEn = "Resume game";
+    private string titleTextUa = "Гра на паузі";
+    private string backToMenuUa = "Назад в меню";
+    private string resumeGameUa = "Відновити гру";
+    private void Awake()
+    {
+        CheckLocalization();
+        UpdatePausePanelText();
+    }
+
+
+    private void CheckLocalization()
+    {
+        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        {
+            actualTitleText = titleTextEn;
+            actualBackToMenuBtnText = backToMenuEn;
+            actualResumeGameBtnText = resumeGameEn;
+
+        }
+        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        {
+            actualTitleText = titleTextUa;
+            actualBackToMenuBtnText = backToMenuUa;
+            actualResumeGameBtnText = resumeGameUa;
+        }
+    }
+
+    private void UpdatePausePanelText()
+    {
+        titleText.text = actualTitleText;
+        backToMenuButton.GetComponentInChildren<TextMeshProUGUI>().text = actualBackToMenuBtnText;
+        resumeGameButton.GetComponentInChildren<TextMeshProUGUI>().text = actualResumeGameBtnText;
+    }
+}

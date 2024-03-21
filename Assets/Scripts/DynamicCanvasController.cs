@@ -28,6 +28,7 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerHealthText;
     [SerializeField] private GameObject notePanel;
     [SerializeField] private GameObject hUDPanel;
+    [SerializeField] private PausePanel pausePanel;
     [SerializeField] private TextMeshProUGUI noteText;
     [SerializeField] private TextMeshProUGUI creditTMPText;
     [SerializeField] private Image[] crosshairLines;
@@ -58,6 +59,21 @@ public class DynamicCanvasController : MonoBehaviour
         treatmentAnimation = GetComponent<Animation>();
         backToMenuText = backToMenuButton.GetComponentInChildren<TextMeshProUGUI>();
         CheckLocalization();
+    }
+
+    public void SwitchPausePanel(bool isEnable)
+    {
+        pausePanel.gameObject.SetActive(isEnable);
+    }
+
+    public void ResumeGame() // OnClickEvent
+    {
+        gameManager.SwitchPause();
+    }
+    
+    public void BackToMenu() // OnClickEvent
+    {
+        gameManager.BackToMenu();
     }
 
     public void UpdateTextMessage(string message)
@@ -210,10 +226,7 @@ public class DynamicCanvasController : MonoBehaviour
         gameManager.UnlockCursor(false);
     }
 
-    public void BackToMenu() // OnClick
-    {
-        gameManager.BackToMenu();
-    }
+    
 
     private void PlayRandomTypeWriterSound()
     {
@@ -244,14 +257,6 @@ public class DynamicCanvasController : MonoBehaviour
             {
                 line.color = Color.white;
             }
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            BackToMenu();
         }
     }
 }
