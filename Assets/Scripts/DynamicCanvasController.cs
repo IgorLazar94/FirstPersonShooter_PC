@@ -36,7 +36,11 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private Image[] crosshairLines;
     [TextArea(5, 10)] [SerializeField] private string creditTextEn;
     [TextArea(5, 10)] [SerializeField] private string creditTextUa;
+    [SerializeField] private TextMeshProUGUI noteInstrText;
     [SerializeField] private Button backToMenuButton;
+    private string actualNoteText;
+    private string noteTextEn = "Press «Esc» to close the note";
+    private string noteTextUa = "Натисніть «Esc», щоб закрити записку";
     private string backToMenuEn = "Back to menu";
     private string backToMenuUa = "Назад в меню";
     private string creditActualText;
@@ -160,17 +164,20 @@ public class DynamicCanvasController : MonoBehaviour
         {
             creditActualText = creditTextEn;
             backToMenuText.text = backToMenuEn;
+            actualNoteText = noteTextEn;
         }
         else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
         {
             creditActualText = creditTextUa;
             backToMenuText.text = backToMenuUa;
+            actualNoteText = noteTextUa;
         }
     }
 
     public void ShowNote(string newText)
     {
         questTextContainer.gameObject.SetActive(false);
+        noteInstrText.text = actualNoteText;
         IsEnableNotePanel = true;
         hUDPanel.SetActive(false);
         gameManager.EnablePause();
