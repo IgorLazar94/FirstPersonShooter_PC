@@ -9,9 +9,9 @@ namespace SFX
         public const string PickupFirstAidKit = "PickupFirstAidKit";
         public const string PlayerTakeDamage = "PlayerTakeDamage";
         public const string Click = "Click";
-        public const string TypeWriterPitched1 = "TypeWriterPitched_1";
-        public const string TypeWriterPitched2 = "TypeWriterPitched_2";
-        public const string TypeWriterPitched3 = "TypeWriterPitched_3";
+        public const string CliTypewriterSound = "TypewriterSound";
+        public const string ClickSound = "ClickSound";
+        public const string QuestUpdate = "QuestUpdate";
         public const string MeleeAttack = "MeleeAttack";
     }
 }

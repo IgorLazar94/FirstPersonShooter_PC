@@ -5,6 +5,7 @@ using TMPro;
 using DG.Tweening;
 using JetBrains.Annotations;
 using MenuScene;
+using SFX;
 
 public class QuestSystem : MonoBehaviour
 {
@@ -57,6 +58,7 @@ public class QuestSystem : MonoBehaviour
     private void AddQuest(string questName)
     {
         RepaintOldQuests();
+        PlayerAudioManager.instance.PlaySFX(AudioCollection.QuestUpdate);
         TextMeshProUGUI newQuestText = Instantiate(questTextPrefab, questListParent);
         newQuestText.text = questName;
         questCounter++;

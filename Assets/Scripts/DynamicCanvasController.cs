@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using DG.Tweening;
+using Interactable;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using MenuScene;
@@ -18,6 +19,7 @@ public class DynamicCanvasController : MonoBehaviour
     [SerializeField] private FirstPersonController firstPersonController;
     [SerializeField] private Transform questTextContainer;
     [SerializeField] private GameManager gameManager;
+    [SerializeField] private ExitDoor exitDoor;
     [SerializeField] private GameObject creditPanel;
     [SerializeField] private TextMeshProUGUI textInteractableMessage;
     [SerializeField] private TextMeshProUGUI bulletsLoadedInPistol;
@@ -64,6 +66,7 @@ public class DynamicCanvasController : MonoBehaviour
     public void SwitchPausePanel(bool isEnable)
     {
         pausePanel.gameObject.SetActive(isEnable);
+        PlayerAudioManager.instance.PlaySFX(AudioCollection.ClickSound);
     }
 
     public void ResumeGame() // OnClickEvent
@@ -195,6 +198,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void ShowCreditText()
     {
+        exitDoor.GetComponent<AudioSource>().Play();
         questTextContainer.gameObject.SetActive(false);
         hUDPanel.SetActive(false);
         firstPersonController.enabled = false;
@@ -212,7 +216,6 @@ public class DynamicCanvasController : MonoBehaviour
         foreach (var text in creditActualText)
         {
             creditTMPText.text += text;
-            PlayRandomTypeWriterSound();
             while (elapsedTime < characterDelay)
             {
                 elapsedTime += Time.unscaledDeltaTime;
@@ -221,28 +224,9 @@ public class DynamicCanvasController : MonoBehaviour
 
             elapsedTime = 0f;
         }
-
+        exitDoor.GetComponent<AudioSource>().Stop();
         backToMenuButton.gameObject.SetActive(true);
         gameManager.UnlockCursor(false);
-    }
-
-    
-
-    private void PlayRandomTypeWriterSound()
-    {
-        int random = Random.Range(0, 3);
-        switch (random)
-        {
-            case 0:
-                PlayerAudioManager.instance.PlaySFX(AudioCollection.TypeWriterPitched1);
-                break;
-            case 1:
-                PlayerAudioManager.instance.PlaySFX(AudioCollection.TypeWriterPitched2);
-                break;
-            case 2:
-                PlayerAudioManager.instance.PlaySFX(AudioCollection.TypeWriterPitched3);
-                break;
-        }
     }
 
     private void SwitchCrosshairLines(bool withFlashlight)

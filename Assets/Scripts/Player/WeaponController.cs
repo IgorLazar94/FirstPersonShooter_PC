@@ -20,7 +20,7 @@ namespace Player
         private bool isReadyToShot = true;
         private float timeBetweenShots = 0.35f;
         private float timeToReload = 1f;
-        private float timeToMeleeAttack = 1.5f;
+        private float timeToMeleeAttack = 0.75f;
         private int ignoreLayerMask;
         private string layerName = "TriggerZoneLayer";
 
