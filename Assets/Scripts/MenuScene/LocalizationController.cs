@@ -29,16 +29,13 @@ namespace MenuScene
         
         public static Action<TypeOfLocalization> onLanguageChanged;
         public static TypeOfLocalization currentLocalization;
-        private TypeOfLocalization defaultLocalization = TypeOfLocalization.English;
+        private readonly TypeOfLocalization defaultLocalization = TypeOfLocalization.Ukrainian;
 
         private void Awake()
         {
             MakeSingleton();
-        }
-
-        private void Start()
-        {
             SetLocalization(defaultLocalization);
+
         }
 
         private void SetLocalization(TypeOfLocalization localization)

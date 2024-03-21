@@ -45,7 +45,8 @@ namespace Player
             if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out var hit, distance, ignoreLayerMask))
             {
                 IInteractable interactable = hit.collider.gameObject.GetComponent<IInteractable>();
-                if (hit.collider.gameObject.TryGetComponent(out Enemy.Zombie.ZombieBehaviour zombie))
+                if (hit.collider.gameObject.TryGetComponent(out Enemy.Zombie.ZombieBehaviour zombie)
+                    || hit.collider.gameObject.TryGetComponent(out Enemy.Zombie.ZombieHead zombieHead))
                 {
                     bloodPool.InitNewBlood(hit.point + new Vector3(hit.normal.x * 0.01f, hit.normal.y * 0.01f, hit.normal.z * 0.01f));
                     return;

@@ -14,6 +14,7 @@ namespace Enemy.Zombie
         [SerializeField] private int remainingResurrection;
         [SerializeField] private AudioClip zombieAttack, zombieAttack2, takeDamage, takeDamage2, findPlayer, findPlayer2, zombieDie, zombieDie2;
         private AudioSource audioSource;
+        private ZombieHead zombieHead;
         private CapsuleCollider zombieCollider;
         private int defaultHealthPoints;
         private float distanceToAttack = 2.5f;
@@ -65,6 +66,11 @@ namespace Enemy.Zombie
                     isAttackPlayer = false;
                 }
             }
+        }
+
+        public void SetZombieHead(ZombieHead zombieHead)
+        {
+            this.zombieHead = zombieHead;
         }
 
         private void PlayAttackPlayerAnimation()
@@ -160,14 +166,7 @@ namespace Enemy.Zombie
             if (isDeath) return;
             healthPoints -= damage;
             PlayRandomAudio(takeDamage, takeDamage2);
-            // if (healthPoints <= 0)
-            // {
             ChanceToAnimatedDamage(true);
-            // }
-            // else
-            // {
-            //     ChanceToAnimatedDamage(false);
-            // }
             OnHandleMovedZombieToPlayer();
             isMoveToPlayer = true;
             int random = Random.Range(1, 3);
@@ -241,6 +240,7 @@ namespace Enemy.Zombie
         private void SwitchZombieCollider(bool isZombieDeath)
         {
             zombieCollider.enabled = !isZombieDeath;
+            zombieHead.GetComponent<SphereCollider>().enabled = !isZombieDeath;
             if (!isZombieDeath)
             {
                 const float targetRadius = 0.3f;

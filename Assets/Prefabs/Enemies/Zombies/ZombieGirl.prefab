@@ -265,6 +265,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4467195585705873057}
+  - component: {fileID: 6655337401606126502}
+  - component: {fileID: 3014129715294018302}
   m_Layer: 0
   m_Name: mixamorig:Head
   m_TagString: Untagged
@@ -290,6 +292,40 @@ Transform:
   - {fileID: 4703926700226485856}
   m_Father: {fileID: 3924030048956426203}
   m_LocalEulerAnglesHint: {x: -33.66225, y: -14.71318, z: 9.127202}
+--- !u!135 &6655337401606126502
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819611846557710509}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3014129715294018302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819611846557710509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0961dca5861882f41ac49338cd21d7c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zombieBehaviour: {fileID: 7894627886675862271}
 --- !u!1 &1083612618533732221
 GameObject:
   m_ObjectHideFlags: 0
@@ -2070,7 +2106,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 6978865197989775000}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.3
+  m_Radius: 0.2
   m_Speed: 2.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -2079,7 +2115,7 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 2
+  m_Height: 1.5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
@@ -2102,10 +2138,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.3
-  m_Height: 2
+  m_Radius: 0.2
+  m_Height: 1.5
   m_Direction: 1
-  m_Center: {x: 0, y: 1, z: 0}
+  m_Center: {x: 0, y: 0.85, z: 0}
 --- !u!82 &8938368109281689832
 AudioSource:
   m_ObjectHideFlags: 0

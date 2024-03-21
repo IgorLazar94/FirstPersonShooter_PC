@@ -1,5 +1,7 @@
 using System.Collections;
+using Enemy.Zombie;
 using SFX;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Player
@@ -91,7 +93,15 @@ namespace Player
             const float raycastDistance = 100f;
             if (Physics.Raycast(raycastOrigin, raycastDirection, out var hit, raycastDistance, ignoreLayerMask))
             {
-                var zombieBehaviour = hit.collider.GetComponent<Enemy.Zombie.ZombieBehaviour>();
+                var zombieHead = hit.collider.GetComponent<ZombieHead>();
+                var zombieBehaviour = hit.collider.GetComponent<ZombieBehaviour>();
+
+                if (zombieHead != null)
+                {
+                    dynamicCanvas.PlayDetectAnim();
+                    zombieHead.ZombieHeadTakeDamage(pistolDamage);
+                }
+
                 if (zombieBehaviour != null)
                 {
                     dynamicCanvas.PlayDetectAnim();
