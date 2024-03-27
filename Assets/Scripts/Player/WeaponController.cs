@@ -97,22 +97,18 @@ namespace Player
                 var zombieHead = hit.collider.GetComponent<ZombieHead>();
                 var zombieBehaviour = hit.collider.GetComponent<ZombieBehaviour>();
                 var spider = hit.collider.gameObject.GetComponent<Spider>();
-                Debug.Log(hit.collider.gameObject.name + " + " + hit.collider.gameObject.layer + " hit GO name + layer");
                 if (spider != null)
                 {
-                    Debug.Log("shot in spider");
                     dynamicCanvas.PlayDetectAnim();
                     spider.SpiderDie();
                 }
                 if (zombieHead != null)
                 {
-                    Debug.Log("shot in zombieHead");
                     dynamicCanvas.PlayDetectAnim();
                     zombieHead.ZombieHeadTakeDamage(pistolDamage);
                 }
                 if (zombieBehaviour != null)
                 {
-                    Debug.Log("shot in zombie body");
                     dynamicCanvas.PlayDetectAnim();
                     zombieBehaviour.TakeDamage(pistolDamage);
                 }
