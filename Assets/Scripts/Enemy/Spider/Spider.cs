@@ -8,12 +8,15 @@ namespace Enemy.Spider
     {
         private ParticleSystem[] spiderDieParticle;
         private Animator spiderAnimator;
-        private float speed = 5f;
+        private AudioSource spiderAudioSource;
+        private AudioClip spiderMove, spiderAttack, spiderDie;
+        private float speed = 2.5f;
         private float distanceToAttack = 3f;
         private int spiderDamage = 5;
 
         private void Start()
         {
+            spiderAudioSource = GetComponent<AudioSource>();
             spiderDieParticle = GetComponentsInChildren<ParticleSystem>();
             spiderAnimator = GetComponent<Animator>();
         }
@@ -32,6 +35,7 @@ namespace Enemy.Spider
 
             if (distanceToPlayer < distanceToAttack)
             {
+                PlaySfx(spiderAttack);
                 spiderAnimator.SetTrigger(StringAnimCollection.isAttack);
                 var newPosition = Vector3.MoveTowards(currentPosition, targetPosition, speed * Time.deltaTime);
                 transform.position = newPosition;
@@ -39,6 +43,7 @@ namespace Enemy.Spider
             }
             else
             {
+                PlaySfx(spiderMove);
                 targetPosition.y = currentPosition.y;
                 var newPosition = Vector3.MoveTowards(currentPosition, targetPosition, speed * Time.deltaTime);
                 transform.position = newPosition;
@@ -68,13 +73,37 @@ namespace Enemy.Spider
 
         public void SpiderDie()
         {
+            PlaySfx(spiderDie);
             foreach (var fx in spiderDieParticle)
             {
                 fx.Play();
                 fx.transform.parent = null;
             }
+            Invoke(nameof(DestroySpider), 0.3f);
+        }
 
+        private void DestroySpider()
+        {
             Destroy(this.gameObject);
+        }
+
+        public void SetPlayer(FirstPersonController _player)
+        {
+            this.player = _player;
+        }
+
+        private void PlaySfx(AudioClip audioClip)
+        {
+            if (spiderAudioSource.isPlaying && spiderAudioSource.clip == audioClip) return;
+            spiderAudioSource.clip = audioClip;
+            spiderAudioSource.Play();
+        }
+
+        public void SetAudio(AudioClip die, AudioClip attack, AudioClip move)
+        {
+            spiderDie = die;
+            spiderAttack = attack;
+            spiderMove = move;
         }
     }
 }
