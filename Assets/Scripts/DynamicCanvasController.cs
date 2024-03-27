@@ -69,6 +69,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void SwitchPausePanel(bool isEnable)
     {
+        firstPersonController.ToggleSprintBarVisibility(isEnable);
         pausePanel.gameObject.SetActive(isEnable);
         PlayerAudioManager.instance.PlaySFX(AudioCollection.ClickSound);
     }
@@ -76,6 +77,7 @@ public class DynamicCanvasController : MonoBehaviour
     public void ResumeGame() // OnClickEvent
     {
         gameManager.SwitchPause();
+        firstPersonController.ToggleSprintBarVisibility(false);
     }
     
     public void BackToMenu() // OnClickEvent
@@ -108,6 +110,7 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void ActivateDeathPanel()
     {
+        firstPersonController.ToggleSprintBarVisibility(true);
         deathPanel.gameObject.SetActive(true);
         deathPanel.GetComponent<Image>().DOFade(1f, 1f).SetUpdate(true);
     }
@@ -185,7 +188,7 @@ public class DynamicCanvasController : MonoBehaviour
         notePanel.gameObject.SetActive(true);
         noteText.text = newText;
         notePanel.transform.DOScale(Vector3.one, 0.5f).SetUpdate(true);
-        firstPersonController.enabled = false;
+        firstPersonController.ToggleSprintBarVisibility(true);
     }
 
     public void HideNote()
@@ -200,11 +203,12 @@ public class DynamicCanvasController : MonoBehaviour
         IsEnableNotePanel = false;
         hUDPanel.SetActive(true);
         notePanel.gameObject.SetActive(false);
-        firstPersonController.enabled = true;
+        firstPersonController.ToggleSprintBarVisibility(false);
     }
 
     public void ShowCreditText()
     {
+        firstPersonController.ToggleSprintBarVisibility(true);
         exitDoor.GetComponent<AudioSource>().Play();
         questTextContainer.gameObject.SetActive(false);
         hUDPanel.SetActive(false);

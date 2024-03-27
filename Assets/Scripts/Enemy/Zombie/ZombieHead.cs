@@ -6,6 +6,7 @@ namespace Enemy.Zombie
     public class ZombieHead : MonoBehaviour
     {
         [SerializeField] private ZombieBehaviour zombieBehaviour;
+        private const int DamageMultiplier = 2;
 
         private void Start()
         {
@@ -14,7 +15,7 @@ namespace Enemy.Zombie
 
         public void ZombieHeadTakeDamage(int damage)
         {
-            zombieBehaviour.TakeDamage(damage * 2);
+            zombieBehaviour.TakeDamage(damage * DamageMultiplier);
         }
     }
 }

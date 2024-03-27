@@ -460,6 +460,13 @@ public class FirstPersonController : MonoBehaviour
             }
         }
     }
+    
+    public void ToggleSprintBarVisibility(bool isHide)
+    {
+        if (sprintBarBG == null || sprintBarCG == null) return;
+        sprintBarCG.gameObject.SetActive(!isHide);
+        sprintBarBG.gameObject.SetActive(!isHide);
+    }
 
     // Sets isGrounded based on a raycast sent straigth down from the player object
     private void CheckGround()

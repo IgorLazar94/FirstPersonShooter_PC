@@ -110,7 +110,7 @@ namespace Player
                 }
                 if (zombieBehaviour != null)
                 {
-                    dynamicCanvas.PlayDetectAnim();
+                    // dynamicCanvas.PlayDetectAnim();
                     zombieBehaviour.TakeDamage(pistolDamage);
                 }
                 if (barrel != null)
