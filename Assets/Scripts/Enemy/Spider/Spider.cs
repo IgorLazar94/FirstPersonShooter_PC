@@ -79,7 +79,7 @@ namespace Enemy.Spider
                 fx.Play();
                 fx.transform.parent = null;
             }
-            Invoke(nameof(DestroySpider), 0.3f);
+            DestroySpider();
         }
 
         private void DestroySpider()

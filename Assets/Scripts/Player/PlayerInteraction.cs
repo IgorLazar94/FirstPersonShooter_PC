@@ -9,12 +9,10 @@ namespace Player
         private float interactionDistance = 1.5f;
         private IInteractable currentInteractableObject;
         private Camera mainCamera;
-        private PlayerState playerState;
 
         private void Start()
         {
             mainCamera = Camera.main;
-            playerState = GetComponent<PlayerState>();
         }
 
         void Update()

@@ -4619,6 +4619,7 @@ GameObject:
   - component: {fileID: 8116398783946433125}
   - component: {fileID: 1794793671506109614}
   - component: {fileID: 3033816249073582561}
+  - component: {fileID: -1450906082339010386}
   m_Layer: 0
   m_Name: SpiderHitParticle
   m_TagString: Untagged
@@ -9266,3 +9267,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-1450906082339010386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3352453965145684668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2f9a7281cfde84a8aa03a0d0fd97b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
