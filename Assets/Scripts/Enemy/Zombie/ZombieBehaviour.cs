@@ -29,7 +29,6 @@ namespace Enemy.Zombie
         private float distanceToAttack = 2.5f;
         private Animator zombieAnimator;
         private NavMeshAgent zombieAgent;
-        private bool isAttackPlayer;
         private bool isMoveToPlayer;
         private float distanceToPlayer;
         private float distanceMoveToPlayer = 7f;
@@ -65,13 +64,11 @@ namespace Enemy.Zombie
                 if (distanceToPlayer < distanceToAttack)
                 {
                     PlayAttackPlayerAnimation();
-                    isAttackPlayer = true;
                 }
                 else
                 {
                     OnHandleMovedZombieToPlayer();
                     zombieAnimator.SetBool(StringAnimCollection.isAttack, false);
-                    isAttackPlayer = false;
                 }
             }
         }
@@ -239,7 +236,6 @@ namespace Enemy.Zombie
             yield return new WaitForSeconds(20f);
             zombieAnimator.SetTrigger(StringAnimCollection.resurrection);
             OnHandleStoppedZombie();
-            isAttackPlayer = false;
             zombieAnimator.SetBool(StringAnimCollection.isDeath, false);
             zombieAnimator.SetBool(StringAnimCollection.isMove, false);
             zombieAnimator.SetBool(StringAnimCollection.isAttack, false);

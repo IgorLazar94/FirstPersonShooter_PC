@@ -66,7 +66,7 @@ namespace Player
                     CreateSlimeFx(hit);
                     return;
                 }
-                if (interactable != null)
+                if (interactable != null || hit.collider.gameObject.TryGetComponent(out RedBarrel barrel))
                 {
                     CreateSparksFx(hit);
                     return;

@@ -97,6 +97,7 @@ namespace Player
                 var zombieHead = hit.collider.GetComponent<ZombieHead>();
                 var zombieBehaviour = hit.collider.GetComponent<ZombieBehaviour>();
                 var spider = hit.collider.gameObject.GetComponent<Spider>();
+                var barrel = hit.collider.gameObject.GetComponent<RedBarrel>();
                 if (spider != null)
                 {
                     dynamicCanvas.PlayDetectAnim();
@@ -111,6 +112,10 @@ namespace Player
                 {
                     dynamicCanvas.PlayDetectAnim();
                     zombieBehaviour.TakeDamage(pistolDamage);
+                }
+                if (barrel != null)
+                {
+                    barrel.BarrelTakeDamage();
                 }
             }
         }
