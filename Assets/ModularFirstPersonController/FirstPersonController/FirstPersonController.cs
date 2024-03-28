@@ -181,7 +181,7 @@ public class FirstPersonController : MonoBehaviour
             sprintBarWidth = screenWidth * sprintBarWidthPercent;
             sprintBarHeight = screenHeight * sprintBarHeightPercent;
 
-            sprintBarBG.rectTransform.sizeDelta = new Vector3(sprintBarWidth, sprintBarHeight, 0f);
+            sprintBarBG.rectTransform.sizeDelta = new Vector3(800f, 150f, 0f);
             sprintBar.rectTransform.sizeDelta = new Vector3(sprintBarWidth - 2, sprintBarHeight - 2, 0f);
 
             if(hideBarWhenFull)
