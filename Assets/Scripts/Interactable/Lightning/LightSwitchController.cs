@@ -1,7 +1,7 @@
-using System;
 using Interactable;
 using UnityEngine;
 using MenuScene;
+using Zenject;
 
 namespace Lightning
 {
@@ -14,7 +14,14 @@ namespace Lightning
         [SerializeField] private bool isEnable;
         private Animator switchAnimator;
         private AudioSource audioSource;
-
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
+        
         private void Start()
         {
             CheckLocalization();
@@ -41,11 +48,11 @@ namespace Lightning
 
         public void CheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 actualMessage = interactionMessageEn;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 actualMessage = interactionMessageUa;
             }

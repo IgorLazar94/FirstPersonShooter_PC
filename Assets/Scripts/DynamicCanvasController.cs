@@ -9,8 +9,7 @@ using UnityEngine.UI;
 using MenuScene;
 using Player;
 using SFX;
-using Unity.VisualScripting;
-using Random = UnityEngine.Random;
+using Zenject;
 
 public class DynamicCanvasController : MonoBehaviour
 {
@@ -48,6 +47,13 @@ public class DynamicCanvasController : MonoBehaviour
     private int lastBulletsInPistol;
     private int lastBulletsInInventory;
     private TextMeshProUGUI backToMenuText;
+    private LocalizationController localizationController;
+        
+    [Inject]
+    private void Construct(LocalizationController localizationController)
+    {
+        this.localizationController = localizationController;
+    }
 
     private void OnEnable()
     {
@@ -137,11 +143,11 @@ public class DynamicCanvasController : MonoBehaviour
 
     public void UpdatePlayerHealthText(int hp)
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             playerHealthText.text = "Health points: " + hp;
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             playerHealthText.text = "Здоров'я гравця: " + hp;
         }
@@ -163,13 +169,13 @@ public class DynamicCanvasController : MonoBehaviour
 
     private void CheckLocalization()
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             creditActualText = creditTextEn;
             backToMenuText.text = backToMenuEn;
             actualNoteText = noteTextEn;
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             creditActualText = creditTextUa;
             backToMenuText.text = backToMenuUa;

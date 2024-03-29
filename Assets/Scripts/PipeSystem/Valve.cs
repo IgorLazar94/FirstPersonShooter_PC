@@ -1,8 +1,8 @@
-using System;
 using Interactable;
 using UnityEngine;
 using DG.Tweening;
 using MenuScene;
+using Zenject;
 
 namespace PipeSystem
 {
@@ -15,6 +15,13 @@ namespace PipeSystem
         private readonly string messageUa = "press E to close valve";
         private string actualMessage;
         private bool isOpen = true;
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
 
         private void Start()
         {
@@ -45,11 +52,11 @@ namespace PipeSystem
 
         public void CheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 actualMessage = messageEn;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 actualMessage = messageUa;
             }

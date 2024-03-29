@@ -1,9 +1,9 @@
-using System;
 using DG.Tweening;
 using MenuScene;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class LoadControl : MonoBehaviour
 {
@@ -16,6 +16,13 @@ public class LoadControl : MonoBehaviour
     private float interval = 0.33f;
     private int maxDots = 3;
     private int currentDots = 0;
+    private LocalizationController localizationController;
+        
+    [Inject]
+    private void Construct(LocalizationController localizationController)
+    {
+        this.localizationController = localizationController;
+    }
 
     public void InitLoadPanel()
     {
@@ -49,12 +56,12 @@ public class LoadControl : MonoBehaviour
 
     private void CheckLocalization()
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             actualText = loadTextEn;
             SetNewLoadTextPos(-80f);
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             actualText = loadTextUa;
             SetNewLoadTextPos(-195f);

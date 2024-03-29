@@ -6,6 +6,7 @@ using DG.Tweening;
 using JetBrains.Annotations;
 using MenuScene;
 using SFX;
+using Zenject;
 
 public class QuestSystem : MonoBehaviour
 {
@@ -17,8 +18,9 @@ public class QuestSystem : MonoBehaviour
     private float newQuestSize = 80f;
     private float topMargin = 20f;
     private float leftMargin = 500f;
-
     private int questCounter;
+    private LocalizationController localizationController;
+
 
     // English content
     private string escapeTextEn = "Escape from the hospital";
@@ -43,6 +45,12 @@ public class QuestSystem : MonoBehaviour
     private void OnDisable()
     {
         OnUpdateQuest -= UpdateQuest;
+    }
+            
+    [Inject]
+    private void Construct(LocalizationController localizationController)
+    {
+        this.localizationController = localizationController;
     }
 
     private void Awake()
@@ -118,13 +126,13 @@ public class QuestSystem : MonoBehaviour
 
     private void CheckLocalization()
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             escapeTextActual = escapeTextEn;
             powerupElectricityActual = powerupElectricityEn;
             turnOffGasActual = turnOffGasEn;
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             escapeTextActual = escapeTextUa;
             powerupElectricityActual = powerupElectricityUa;

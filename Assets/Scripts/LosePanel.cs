@@ -1,10 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using MenuScene;
+using  Zenject;
 
 public class LosePanel : MonoBehaviour
 {
@@ -23,6 +21,13 @@ public class LosePanel : MonoBehaviour
     private string titleTextUa = "Ти загинув";
     private string restartBtnTextUa = "Рестарт";
     private string backToMenuBtnTextUa = "В меню";
+    private LocalizationController localizationController;
+        
+    [Inject]
+    private void Construct(LocalizationController localizationController)
+    {
+        this.localizationController = localizationController;
+    }
 
     private void Awake()
     {
@@ -32,14 +37,14 @@ public class LosePanel : MonoBehaviour
 
     private void CheckLocalization()
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             actualTitleText = titleTextEn;
             actualBackToMenuBtnText = backToMenuBtnTextEn;
             actualRestartBtnText = restartBtnTextEn;
 
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             actualTitleText = titleTextUa;
             actualBackToMenuBtnText = backToMenuBtnTextUa;

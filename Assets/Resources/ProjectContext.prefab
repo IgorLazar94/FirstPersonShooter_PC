@@ -74,3 +74,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252056fb6d012b74f851788d481591e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  localizationControllerPrefab: {fileID: 8374290686792436852, guid: b154cb6eba4b9ec4c9cf7de6487c810b,
+    type: 3}

@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using MenuScene;
+using Zenject;
 
 namespace Interactable.Lightning
 {
@@ -22,6 +23,25 @@ namespace Interactable.Lightning
         private Animator shieldAnimator;
         private Tween alarmLightTween;
         private bool isHasElectricity;
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
+        
+        public void CheckLocalization()
+        {
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
+            {
+                actualLanguage = messageEn;
+            }
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
+            {
+                actualLanguage = messageUA;
+            }
+        }
 
         private void Start()
         {
@@ -52,17 +72,6 @@ namespace Interactable.Lightning
             }
         }
 
-        public void CheckLocalization()
-        {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
-            {
-                actualLanguage = messageEn;
-            }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
-            {
-                actualLanguage = messageUA;
-            }
-        }
 
         public void OnHandleLevelArmUp() // Animation Event
         {

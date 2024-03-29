@@ -1,4 +1,5 @@
 using MenuScene;
+using Zenject;
 
 namespace Interactable
 {
@@ -8,7 +9,6 @@ namespace Interactable
         private const string InteractionMessageEn = "Press E to pickup first aid kit";
         private const string InteractionMessageUa = "Наптисніть Е, щоб підібрати аптечку";
         private string actualFirstAidMessage;
-
 
         private void Start()
         {
@@ -31,11 +31,11 @@ namespace Interactable
         
         private void LocalCheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 actualFirstAidMessage = InteractionMessageEn;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 actualFirstAidMessage = InteractionMessageUa;
             }

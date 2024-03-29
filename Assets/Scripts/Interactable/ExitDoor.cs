@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using MenuScene;
+using Zenject;
 
 namespace Interactable
 {
@@ -10,6 +11,14 @@ namespace Interactable
         private readonly string interactionMessageEn = "press E to escape from the hospital";
         private readonly string interactionMessageUa = "натисніть Е, щоб втекти зі шпиталю";
         private string actualMessage;
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
+
 
         private void Awake()
         {
@@ -28,11 +37,11 @@ namespace Interactable
 
         public void CheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 actualMessage = interactionMessageEn;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 actualMessage = interactionMessageUa;
             }

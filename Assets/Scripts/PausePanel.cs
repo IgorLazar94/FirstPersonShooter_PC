@@ -2,6 +2,7 @@ using MenuScene;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class PausePanel : MonoBehaviour
 {
@@ -19,6 +20,13 @@ public class PausePanel : MonoBehaviour
     private string titleTextUa = "Гра на паузі";
     private string backToMenuUa = "Назад в меню";
     private string resumeGameUa = "Відновити гру";
+    private LocalizationController localizationController;
+        
+    [Inject]
+    private void Construct(LocalizationController localizationController)
+    {
+        this.localizationController = localizationController;
+    }
     private void Awake()
     {
         CheckLocalization();
@@ -28,14 +36,14 @@ public class PausePanel : MonoBehaviour
 
     private void CheckLocalization()
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             actualTitleText = titleTextEn;
             actualBackToMenuBtnText = backToMenuEn;
             actualResumeGameBtnText = resumeGameEn;
 
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             actualTitleText = titleTextUa;
             actualBackToMenuBtnText = backToMenuUa;

@@ -5,6 +5,7 @@ using Interactable.Lightning;
 using TMPro;
 using UnityEngine;
 using MenuScene;
+using Zenject;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -19,6 +20,13 @@ public class Door : MonoBehaviour, IInteractable
     private bool isDoorOpen = false;
     private Vector3 isCloseRotation;
     private Vector3 isOpenRotation;
+    private LocalizationController localizationController;
+        
+    [Inject]
+    private void Construct(LocalizationController localizationController)
+    {
+        this.localizationController = localizationController;
+    }
 
     private void OnEnable()
     {
@@ -69,11 +77,11 @@ public class Door : MonoBehaviour, IInteractable
 
     public void CheckLocalization()
     {
-        if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+        if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
         {
             actualMessage = interactionMessageEn;
         }
-        else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+        else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
         {
             actualMessage = interactionMessageUa;
         }

@@ -1,6 +1,7 @@
 using Player;
 using UnityEngine;
 using MenuScene;
+using Zenject;
 
 namespace Interactable
 {
@@ -10,6 +11,14 @@ namespace Interactable
         private readonly string interactionMessageEn = "press E to pick up the drop";
         private readonly string interactionMessageUa = "натисніть Е, щоб взяти дроп";
         private string actualMessage;
+        protected LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
+
         
         public void SetPlayerToDrop(PlayerState playerState)
         {
@@ -27,11 +36,11 @@ namespace Interactable
 
         public void CheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 actualMessage = interactionMessageEn;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 actualMessage = interactionMessageUa;
             }

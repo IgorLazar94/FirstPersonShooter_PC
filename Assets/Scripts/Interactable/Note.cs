@@ -1,8 +1,7 @@
-using System;
 using MenuScene;
-using Player;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace Interactable
 {
@@ -16,6 +15,14 @@ namespace Interactable
         private readonly string interectableMessageEN = "press E to read the note";
         private readonly string interectableMessageUA = "Натисніть Е, щоб прочитати записку";
         private string actualMessage;
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
+
 
         private void Start()
         {
@@ -36,12 +43,12 @@ namespace Interactable
 
         public void CheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 actualNoteContent = noteContentEN;
                 actualMessage = interectableMessageEN;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 actualNoteContent = noteContentUA;
                 actualMessage = interectableMessageUA;

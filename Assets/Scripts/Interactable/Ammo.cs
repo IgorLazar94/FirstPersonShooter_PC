@@ -1,4 +1,5 @@
 using MenuScene;
+using Zenject;
 
 namespace Interactable
 {
@@ -27,11 +28,11 @@ namespace Interactable
         
         private new void CheckLocalization()
         {
-            if (LocalizationController.currentLocalization == TypeOfLocalization.English)
+            if (localizationController.GetCurrentLocalization() == TypeOfLocalization.English)
             {
                 interactionMessage = interactionMessageEn;
             }
-            else if (LocalizationController.currentLocalization == TypeOfLocalization.Ukrainian)
+            else if (localizationController.GetCurrentLocalization() == TypeOfLocalization.Ukrainian)
             {
                 interactionMessage = interactionMessageUa;
             }

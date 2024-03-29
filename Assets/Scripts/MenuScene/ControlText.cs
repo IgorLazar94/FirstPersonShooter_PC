@@ -1,6 +1,6 @@
-using System;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 namespace MenuScene
 {
@@ -9,6 +9,13 @@ namespace MenuScene
         [SerializeField] private string englishText;
         [SerializeField] private string ukrainianText;
         private TextMeshProUGUI controlText;
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
 
         private void Awake()
         {
@@ -40,7 +47,7 @@ namespace MenuScene
 
         public void CheckLanguage()
         {
-            switch (LocalizationController.currentLocalization)
+            switch (localizationController.GetCurrentLocalization())
             {
                 case TypeOfLocalization.English :
                     controlText.text = englishText;

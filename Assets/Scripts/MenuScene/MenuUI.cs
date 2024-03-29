@@ -1,6 +1,6 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace MenuScene
 {
@@ -11,9 +11,17 @@ namespace MenuScene
         [SerializeField] private ParticleSystem[] menuEffects;
         private ControlText[] controlTexts;
         private MenuSceneButton backButton;
+        private LocalizationController localizationController;
+        
+        [Inject]
+        private void Construct(LocalizationController localizationController)
+        {
+            this.localizationController = localizationController;
+        }
 
         private void Start()
         {
+            LocalizationController.onLanguageChanged?.Invoke(localizationController.GetCurrentLocalization());
             Time.timeScale = 1;
             PlayMenuEffects();
             controlTexts = controlPanel.GetComponentsInChildren<ControlText>();
@@ -42,7 +50,7 @@ namespace MenuScene
             {
                 controlText.CheckLanguage();
             }
-            backButton.SwitchButtonText(LocalizationController.currentLocalization);
+            backButton.SwitchButtonText(localizationController.GetCurrentLocalization());
         }
 
         public void LoadGameplayScene() // OnClickEvent
@@ -55,7 +63,7 @@ namespace MenuScene
 
         public void SwitchLanguageFromButton() // OnClickEvent
         {
-            LocalizationController.Instance.SwitchLanguageToAnother();
+            localizationController.SwitchLanguageToAnother();
         }
 
         public void Exit() // OnClickEvent
