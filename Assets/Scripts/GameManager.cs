@@ -3,6 +3,7 @@ using Enemy.Zombie;
 using PauseSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public enum GameScenarioLevel
 {
@@ -19,17 +20,24 @@ public class GameManager : MonoBehaviour
     private GameScenarioLevel gameScenarioLevel;
     private IPauseService pauseService;
 
+    [Inject]
+    private void Construct(PauseService pauseService)
+    {
+        this.pauseService = pauseService;
+    }
+
     private void Start()
     {
         Time.timeScale = 1;
         gameScenarioLevel = GameScenarioLevel.Morgue;
-        SetPauseService(new PauseService());
+        // SetPauseService(new PauseService());
+        pauseService = new PauseService();
     }
     
-    private void SetPauseService(IPauseService pauseService)
-    {
-        this.pauseService = pauseService;
-    }
+    // private void SetPauseService(IPauseService pauseService)
+    // {
+    //     this.pauseService = pauseService;
+    // }
 
     public void SetNewScenarioStage(GameScenarioLevel newLevel)
     {
