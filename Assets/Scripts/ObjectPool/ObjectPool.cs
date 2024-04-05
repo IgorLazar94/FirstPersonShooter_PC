@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BulletPool<T> where T : MonoBehaviour
+public class ObjectPool<T> where T : MonoBehaviour
 {
     public T prefab { get; }
     public bool autoExpand { get; set; }
@@ -11,7 +11,7 @@ public class BulletPool<T> where T : MonoBehaviour
 
     private List<T> pool;
 
-    public BulletPool(T prefab, int count)
+    public ObjectPool(T prefab, int count)
     {
         this.prefab = prefab;
         this.container = null;
@@ -19,7 +19,7 @@ public class BulletPool<T> where T : MonoBehaviour
         this.CreatePool(count);
     }
 
-    public BulletPool(T prefab, int count, Transform container)
+    public ObjectPool(T prefab, int count, Transform container)
     {
         this.prefab = prefab;
         this.container = container;

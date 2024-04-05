@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class SparksPool : MonoBehaviour
 {
-    [SerializeField] private SparksGameObject sparksFxPrefab;
+    private SparksGameObject sparksFxPrefab;
     private int poolCount = 7;
     private bool autoExpand = true;
 
-    private BulletPool<SparksGameObject> pool;
+    private ObjectPool<SparksGameObject> pool;
 
+    [Inject]
+    private void Construct(SparksGameObject sparksFxPrefab)
+    {
+        this.sparksFxPrefab = sparksFxPrefab;
+    }
     private void Start()
     {
-        this.pool = new BulletPool<SparksGameObject>(sparksFxPrefab, poolCount, this.transform)
+        this.pool = new ObjectPool<SparksGameObject>(sparksFxPrefab, poolCount, this.transform)
         {
             autoExpand = this.autoExpand
         };

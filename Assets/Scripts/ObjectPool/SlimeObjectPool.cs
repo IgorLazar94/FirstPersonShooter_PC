@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class SlimeObjectPool : MonoBehaviour
 {
-    [SerializeField] private SlimeGameObject slimePrefab;
+    private SlimeGameObject slimePrefab;
     private int poolCount = 7;
     private bool autoExpand = true;
 
-    private BulletPool<SlimeGameObject> pool;
+    private ObjectPool<SlimeGameObject> pool;
+
+    [Inject]
+    private void Construct(SlimeGameObject slimePrefab)
+    {
+        this.slimePrefab = slimePrefab;
+    }
 
     private void Start()
     {
-        this.pool = new BulletPool<SlimeGameObject>(slimePrefab, poolCount, this.transform)
+        this.pool = new ObjectPool<SlimeGameObject>(slimePrefab, poolCount, this.transform)
         {
             autoExpand = this.autoExpand
         };

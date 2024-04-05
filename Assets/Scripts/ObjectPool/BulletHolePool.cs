@@ -1,16 +1,23 @@
 using UnityEngine;
+using Zenject;
 
 public class BulletHolePool : MonoBehaviour
 {
-    [SerializeField] private BulletHoleGameObject playerBulletPrefab;
+    private BulletHoleGameObject playerBulletHolePrefab;
     private int poolCount = 30;
     private bool autoExpand = true;
 
-    private BulletPool<BulletHoleGameObject> pool;
+    private ObjectPool<BulletHoleGameObject> pool;
+
+    [Inject]
+    private void Construct(BulletHoleGameObject bulletHolePrefab)
+    {
+        playerBulletHolePrefab = bulletHolePrefab;
+    }
 
     private void Start()
     {
-        this.pool = new BulletPool<BulletHoleGameObject>(playerBulletPrefab, poolCount, this.transform)
+        this.pool = new ObjectPool<BulletHoleGameObject>(playerBulletHolePrefab, poolCount, this.transform)
         {
             autoExpand = this.autoExpand
         };
