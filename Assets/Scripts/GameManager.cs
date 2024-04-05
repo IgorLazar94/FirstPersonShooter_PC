@@ -1,5 +1,6 @@
 using System;
 using Enemy.Zombie;
+using ModularFirstPersonController.FirstPersonController;
 using PauseSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;

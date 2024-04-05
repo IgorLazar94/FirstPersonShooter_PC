@@ -1,11 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
+using ModularFirstPersonController.FirstPersonController;
 using UnityEngine;
+using Zenject;
 
-public class EnemyUnitBehaviour : MonoBehaviour
+namespace Enemy
 {
-    [SerializeField] protected FirstPersonController player;
+    public class EnemyUnitBehaviour : MonoBehaviour
+    {
+        protected FirstPersonController player;
 
-
-    
+        [Inject]
+        private void Construct(FirstPersonController playerFPS)
+        {
+            player = playerFPS;
+        }
+    }
 }

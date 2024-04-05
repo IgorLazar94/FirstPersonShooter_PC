@@ -1,4 +1,5 @@
 using System;
+using ModularFirstPersonController.FirstPersonController;
 using Player;
 using UnityEngine;
 

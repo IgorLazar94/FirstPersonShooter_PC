@@ -1,15 +1,22 @@
 using Interactable;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
     public class PlayerInteraction : MonoBehaviour
     {
-        [SerializeField] private DynamicCanvasController dynamicCanvas;
+        private DynamicCanvasController dynamicCanvas;
         private float interactionDistance = 1.5f;
         private IInteractable currentInteractableObject;
         private Camera mainCamera;
 
+        [Inject]
+        private void Construct(DynamicCanvasController newDynamicCanvas)
+        {
+            dynamicCanvas = newDynamicCanvas;
+        }
+        
         private void Start()
         {
             mainCamera = Camera.main;
@@ -27,7 +34,6 @@ namespace Player
         private void CheckInteractionObject()
         {
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
             if (Physics.Raycast(ray, out var hit, interactionDistance))
             {
                 IInteractable interactable = hit.collider.GetComponent<IInteractable>();

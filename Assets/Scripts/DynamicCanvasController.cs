@@ -7,6 +7,7 @@ using Interactable;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using MenuScene;
+using ModularFirstPersonController.FirstPersonController;
 using Player;
 using SFX;
 using Zenject;

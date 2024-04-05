@@ -1,17 +1,23 @@
-using System;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
     public class InputController : MonoBehaviour
     {
-        [SerializeField] private DynamicCanvasController dynamicCanvas;
+        private DynamicCanvasController dynamicCanvas;
         [SerializeField] private GameManager gameManager;
         [SerializeField] private WeaponController weaponController;
         [SerializeField] private PlayerFlashlightController flashlight;
         [SerializeField] private AudioSource footstepAudioSource;
         [SerializeField] private AudioClip walkSound;
 
+        [Inject]
+        private void Construct(DynamicCanvasController dynamicCanvas)
+        {
+            this.dynamicCanvas = dynamicCanvas;
+        }
+        
         private void Update()
         {
             CheckWalkSound();

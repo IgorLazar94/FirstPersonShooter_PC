@@ -1,18 +1,19 @@
 using System.Collections;
 using Enemy.Spider;
 using Enemy.Zombie;
+using ModularFirstPersonController.FirstPersonController;
 using SFX;
-using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
     public class WeaponController : MonoBehaviour
     {
-        [SerializeField] private DynamicCanvasController dynamicCanvas; // Inject
         [SerializeField] private Animator pistolAnimator;
         [SerializeField] private ParticleSystem muzzleFlashPistol;
-        [SerializeField] private FirstPersonController firstPersonController;
+        private DynamicCanvasController dynamicCanvas;
+        private FirstPersonController firstPersonController;
         private int bulletsInInventory = 14;
         private int bulletsLoadedInPistol;
         private int maxBulletsInPistol = 7;
@@ -25,6 +26,12 @@ namespace Player
         private int ignoreLayerMask;
         private string layerName = "TriggerZoneLayer";
 
+        [Inject]
+        private void Construct(DynamicCanvasController dynamicCanvas, FirstPersonController playerFPS)
+        {
+            this.dynamicCanvas = dynamicCanvas;
+            firstPersonController = playerFPS;
+        }
         private void Start()
         {
             ignoreLayerMask = ~LayerMask.GetMask(layerName);

@@ -1,7 +1,9 @@
 using System;
 using DG.Tweening;
+using ModularFirstPersonController.FirstPersonController;
 using SFX;
 using UnityEngine;
+using Zenject;
 
 namespace Player
 {
@@ -9,11 +11,16 @@ namespace Player
     {
         [SerializeField] private PostProcController postProcessorController;
         [SerializeField] private WeaponController weaponController;
-        [SerializeField] private DynamicCanvasController dynamicCanvas;
+        private DynamicCanvasController dynamicCanvas;
         private FirstPersonController firstPersonController;
         private int maxPlayerHealth = 100;
         private int playerHealth;
 
+        [Inject]
+        private void Construct(DynamicCanvasController dynamicCanvas)
+        {
+            this.dynamicCanvas = dynamicCanvas;
+        }
         private void Start()
         {
             playerHealth = maxPlayerHealth;
