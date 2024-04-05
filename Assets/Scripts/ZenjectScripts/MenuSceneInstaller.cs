@@ -1,4 +1,3 @@
-using MenuScene;
 using Zenject;
 
 namespace ZenjectScripts
@@ -7,7 +6,7 @@ namespace ZenjectScripts
     {
         public override void InstallBindings()
         {
-            // registration for class instances
+        
         }
     }
 }
