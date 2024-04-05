@@ -1,4 +1,4 @@
-using System;
+using Zenject;
 using Interactable.Lightning;
 using Player;
 using UnityEngine;
@@ -8,13 +8,19 @@ namespace TriggerScenarioZones
     [RequireComponent(typeof(BoxCollider))]
     public class BrokenLightBulb : MonoBehaviour
     {
-        [SerializeField] private GameManager gameManager;
         [SerializeField] private ElectricShield electricShield;
         [SerializeField] private AudioClip electricityAudioClip;
         [SerializeField] private AudioClip brokenGlassAudioClip;
+        private GameManager gameManager;
         private ParticleSystem sparks;
         private BoxCollider triggerCollider;
         private AudioSource sfxSource;
+
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            this.gameManager = gameManager;
+        }
 
         private void Start()
         {

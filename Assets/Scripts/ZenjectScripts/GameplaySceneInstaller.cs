@@ -1,5 +1,6 @@
 using ModularFirstPersonController.FirstPersonController;
 using PauseSystem;
+using Player;
 using Zenject;
 using UnityEngine;
 
@@ -17,7 +18,9 @@ namespace ZenjectScripts
         {
             Container.Bind<PauseService>().AsSingle().NonLazy();
             Container.Bind<FirstPersonController>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<PlayerState>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<DynamicCanvasController>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<GameManager>().FromComponentInHierarchy().AsSingle().NonLazy();
             
             BindPoolParticles();
         }

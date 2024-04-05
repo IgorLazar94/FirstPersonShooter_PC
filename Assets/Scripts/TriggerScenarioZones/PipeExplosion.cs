@@ -1,16 +1,23 @@
 using System;
 using Player;
 using UnityEngine;
+using Zenject;
 
 namespace TriggerScenarioZones
 {
     public class PipeExplosion : MonoBehaviour
     {
-        [SerializeField] private GameManager gameManager;
         [SerializeField] private PipeSystem.PipeSystem pipeSystem;
+        private GameManager gameManager;
         private BoxCollider triggerCollider;
         private AudioSource audioSource;
 
+        [Inject]
+        private void Construct(GameManager gameManager)
+        {
+            this.gameManager = gameManager;
+        }
+        
         private void Start()
         {
             audioSource = GetComponent<AudioSource>();

@@ -11,24 +11,25 @@ namespace Interactable.Lightning
         public static event OnSwitchElectricity SwitchElectricity;
         public delegate void OnSwitchElectricity(bool isEnable);
 
-        [SerializeField] private GameManager gameManager;
         [SerializeField] private Transform alarmLight;
         [SerializeField] private Light[] connectLights;
         [SerializeField] private AudioClip lightSfx;
         [SerializeField] private AudioClip alarmSfx;
-        private string messageEn = "Press E to enable electric shield";
-        private string messageUA = "натисніть Е, щоб взаємодіяти з електрощитком";
-        private string actualLanguage;
+        private GameManager gameManager;
         private AudioSource audioSource;
         private Animator shieldAnimator;
         private Tween alarmLightTween;
-        private bool isHasElectricity;
         private LocalizationController localizationController;
-        
+        private string messageEn = "Press E to enable electric shield";
+        private string messageUA = "натисніть Е, щоб взаємодіяти з електрощитком";
+        private string actualLanguage;
+        private bool isHasElectricity;
+
         [Inject]
-        private void Construct(LocalizationController localizationController)
+        private void Construct(LocalizationController localizationController, GameManager gameManager)
         {
             this.localizationController = localizationController;
+            this.gameManager = gameManager;
         }
         
         public void CheckLocalization()

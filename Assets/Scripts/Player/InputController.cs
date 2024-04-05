@@ -6,16 +6,17 @@ namespace Player
     public class InputController : MonoBehaviour
     {
         private DynamicCanvasController dynamicCanvas;
-        [SerializeField] private GameManager gameManager;
+        private GameManager gameManager;
         [SerializeField] private WeaponController weaponController;
         [SerializeField] private PlayerFlashlightController flashlight;
         [SerializeField] private AudioSource footstepAudioSource;
         [SerializeField] private AudioClip walkSound;
 
         [Inject]
-        private void Construct(DynamicCanvasController dynamicCanvas)
+        private void Construct(DynamicCanvasController dynamicCanvas, GameManager gameManager)
         {
             this.dynamicCanvas = dynamicCanvas;
+            this.gameManager = gameManager;
         }
         
         private void Update()

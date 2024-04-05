@@ -16,15 +16,16 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private ZombieActivator zombieActivator;
     [SerializeField] private GameObject decorativeZombie;
-    [SerializeField] private DynamicCanvasController dynamicCanvas;
     [SerializeField] private FirstPersonController firstPersonController;
+    private DynamicCanvasController dynamicCanvas;
     private GameScenarioLevel gameScenarioLevel;
     private IPauseService pauseService;
 
     [Inject]
-    private void Construct(PauseService pauseService)
+    private void Construct(PauseService pauseService, DynamicCanvasController dynamicCanvasController)
     {
         this.pauseService = pauseService;
+        dynamicCanvas = dynamicCanvasController;
     }
 
     private void Start()

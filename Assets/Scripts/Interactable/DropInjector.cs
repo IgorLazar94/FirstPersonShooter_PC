@@ -1,13 +1,19 @@
 using Player;
 using UnityEngine;
+using Zenject;
 
 namespace Interactable
 {
     public class DropInjector : MonoBehaviour
     {
-        [SerializeField] private PlayerState player;
+        private PlayerState player;
         private Drop[] dropsArray;
 
+        [Inject]
+        private void Construct(PlayerState playerState)
+        {
+            player = playerState;
+        }
         private void Start()
         {
             dropsArray = GetComponentsInChildren<Drop>();
